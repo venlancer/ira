@@ -1,0 +1,45 @@
+.footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.footer a {
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.footer a:hover {
+    color: #f4d03f; /* Highlight color on hover */
+}
+
+.footer h5 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.footer p,
+.footer ul,
+.footer li {
+    font-size: 14px;
+    margin: 0;
+}
+
+.footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footer .fab {
+    font-size: 20px;
+    color: #ffffff;
+    transition: color 0.2s ease-in-out;
+}
+
+.footer .fab:hover {
+    color: #f4d03f;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.5);
+}
