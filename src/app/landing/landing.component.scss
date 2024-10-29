@@ -1,0 +1,58 @@
+.separator-skew {
+    height: 100px !important;
+    top: 700px !important;
+}
+
+.card-custom {
+    width: 250px; /* Set your desired width */
+    max-width: 100%; /* Prevent overflow */
+}
+
+.footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.footer a {
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.footer a:hover {
+    color: #f4d03f; /* Highlight color on hover */
+}
+
+/* Updated Heading Styling */
+.footer h5 {
+    font-size: 18px; /* Increased font size */
+    font-weight: bold; /* Bold heading */
+    color: #ffffff; /* White color */
+    margin-bottom: 15px;
+}
+
+.footer p,
+.footer ul,
+.footer li {
+    font-size: 14px;
+    margin: 0;
+}
+
+.footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footer .fab {
+    font-size: 20px;
+    color: #ffffff;
+    transition: color 0.2s ease-in-out;
+}
+
+.footer .fab:hover {
+    color: #f4d03f;
+}
+
+.text-white-50 {
+    color: rgba(255, 255, 255, 0.5);
+}

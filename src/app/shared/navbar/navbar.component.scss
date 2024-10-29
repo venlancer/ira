@@ -1,0 +1,50 @@
+/* navbar.component.css */
+
+body {
+    margin-top: 60px; /* Adjust this value based on the height of your navbar */
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0.5rem 0;
+    z-index: 1000;
+    transition: background-color 0.5s ease;
+  }
+  
+  .navbar.scrolled {
+    background-color: #000000 /* Adjust the opacity as needed */
+}
+
+  .navbar-brand {
+    margin-left: 0; /* Remove extra left margin */
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1.1rem; /* Increase font size for readability */
+  }
+  
+  .navbar-nav .nav-link-icon i {
+    font-size: 1.5rem; /* Increase icon size */
+  }
+  
+  .navbar-nav.mx-auto {
+    text-align: center;
+  }
+  
+  .navbar-nav .nav-item {
+    margin: 0 10px; /* Adds some spacing between nav items */
+  }
+  
+  /* Adjust for alignment on larger screens */
+  @media (min-width: 992px) {
+    .navbar-collapse {
+      justify-content: center; /* Centers nav links */
+    }
+  
+    .d-lg-flex {
+      justify-content: flex-end;
+    }
+  }
+  
