@@ -1,0 +1,34 @@
+.img-thumbnail {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .img-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .section-shaped .shape {
+    height: 25vh;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    width: 100%;
+}
+
+.modal-dialog {
+    max-width: 90%; /* Allows larger images */
+  }
+  
+  .modal-body img {
+    max-height: 80vh; /* Adjusts to screen size */
+  }
+  
+  .btn-close {
+    font-size: 1.5rem; /* Larger close button */
+    color: #000;       /* Black color for contrast */
+    opacity: 0.8;
+  }
+  
+  .btn-close:hover {
+    opacity: 1;
+  }

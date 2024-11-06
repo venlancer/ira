@@ -1,0 +1,101 @@
+/* Center the tabs and heading on the page */
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+}
+
+/* Style the heading */
+.heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Style the buttons */
+.custom-nav .custom-btn {
+  background-color: #3e1d5e; /* Default color */
+  color: white;
+  border: 1px solid #3e1d5e;
+  width: 280px; /* Fixed width for consistency */
+  padding: 12px;
+  margin: 5px;
+  font-size: 18px; /* Larger font size */
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Style the active button */
+.custom-nav .custom-btn.active {
+  background-color: #5d6877;
+  border: 1px solid #5d6877; /* Darker shade for active tab */
+}
+
+/* Add hover effect */
+.custom-nav .custom-btn:hover {
+  background-color: #5d6877;
+}
+
+/* Search Bar Animation */
+.search-bar input {
+  transition: width 0.3s ease;
+  width: 400px;
+}
+
+.search-bar input.search-animation {
+  width: 300px;
+}
+
+/* Center the cards */
+.row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Ensures wrapping when cards overflow */
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+/* Maintain consistent card size */
+.card-item {
+  margin-left: 20px;
+  margin-right: 20px;
+  max-width: 380px; /* Set a max-width for the card */
+  min-width: 220px; /* Ensure cards do not shrink too much */
+  flex: 1 1 380px; /* Flex-grow, flex-shrink, flex-basis */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* You can also use Bootstrap's grid system for responsiveness */
+@media (max-width: 767px) {
+  .col-md-3 {
+    flex: 0 0 100%; /* Ensure full width on small screens */
+  }
+}
+
+/* Additional style for the search bar (for better appearance) */
+.search-bar {
+  margin-bottom: 20px; /* Space between search bar and cards */
+  width: 100%; /* Full width for search bar */
+  max-width: 500px; /* Ensure max-width for search bar */
+  display: flex;
+  justify-content: center;
+}
+
+/* Style for the search input */
+.search-bar input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Focused input field */
+.search-bar input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
