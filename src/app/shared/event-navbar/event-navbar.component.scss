@@ -1,0 +1,64 @@
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align logo and navigation links in a row */
+    padding: 10px 20px;
+    background: linear-gradient(90deg, black, #432067); /* Gradient background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  .navbar-logo .logo {
+    height: 40px;
+    width: auto;
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    display: flex; /* Ensures navigation items are in a row */
+    gap: 20px; /* Space between navigation items */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #d4bfff; /* Light purple on hover */
+  }
+  
+  .navbar-nav {
+    display: flex; /* Align items in a horizontal row */
+    flex-direction: row; /* Ensure the direction is horizontal */
+    list-style: none; /* Remove default bullet points */
+    gap: 20px; /* Add space between items */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+  }
+  
+  .nav-item {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white; /* Adjust color to fit the theme */
+    transition: color 0.3s ease;
+    font-size: 16px !important;
+  }
+  
+  .nav-link:hover {
+    color: #d4bfff; /* Light purple on hover */
+  }

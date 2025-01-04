@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
@@ -24,6 +24,20 @@ import { EventCardsComponent } from './shared/event-cards/event-cards.component'
 import { IraTabsComponent } from './shared/ira-tabs/ira-tabs.component';
 import { ConferencesComponent } from './conferences/conferences.component';
 import { IraGalleryComponent } from './ira-gallery/ira-gallery.component';
+import { DynamicpagecomponentComponent } from './shared/dynamicpagecomponent/dynamicpagecomponent.component';
+import { EventAboutComponent } from './shared/event-about/event-about.component';
+import { EventNavbarComponent } from './shared/event-navbar/event-navbar.component';
+import { ScientificTabsComponent } from './shared/scientific-tabs/scientific-tabs.component';
+import { HalfMoonComponent } from './shared/half-moon/half-moon.component';
+import { ScheduleComponent } from './shared/schedule/schedule.component';
+import { AbstractSubmissionComponent } from './shared/abstract-submission/abstract-submission.component';
+import { DynamicLandingComponent } from './shared/dynamic-landing/dynamic-landing.component';
+import { EventMembersComponent } from './shared/event-members/event-members.component';
+import { EventRegistrationComponent } from './shared/event-registration/event-registration.component';
+import { RegistrationFormComponent } from './shared/registration-form/registration-form.component';
+import { EventPopupComponent } from './shared/event-popup/event-popup.component';
+import { AdminModule } from 'src/admin/admin.module';
+import { AdminNavComponent } from './shared/admin-nav/admin-nav.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +56,20 @@ import { IraGalleryComponent } from './ira-gallery/ira-gallery.component';
     EventCardsComponent,
     IraTabsComponent,
     ConferencesComponent,
-    IraGalleryComponent
+    IraGalleryComponent,
+    DynamicpagecomponentComponent,
+    EventAboutComponent,
+    EventNavbarComponent,
+    ScientificTabsComponent,
+    HalfMoonComponent,
+    ScheduleComponent,
+    AbstractSubmissionComponent,
+    DynamicLandingComponent,
+    EventMembersComponent,
+    EventRegistrationComponent,
+    RegistrationFormComponent,
+    EventPopupComponent,
+    AdminNavComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +77,9 @@ import { IraGalleryComponent } from './ira-gallery/ira-gallery.component';
     FormsModule,
     RouterModule,
     AppRoutingModule,
-    HomeModule
+    HomeModule,
+    ReactiveFormsModule,
+    AdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]

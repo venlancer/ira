@@ -1,0 +1,29 @@
+<div class="tabs-container">
+    <h1 class="txt-heading">CONFERENCE SCHEDULE</h1>
+    <!-- Tabs bar -->
+    <ul class="tabs-list">
+      <li
+        *ngFor="let dayObj of timelineData; let i = index"
+        [class.active]="activeTabIndex === i"
+        (click)="selectTab(i)"
+      >
+        {{ dayObj.dayLabel }}
+      </li>
+    </ul>
+  
+    <!-- Content for the active tab: a grid of events -->
+    <div class="tab-content" *ngIf="timelineData && timelineData.length">
+      <div class="events-grid">
+        <!-- Only shows events for the currently active day -->
+        <div
+          class="event-card"
+          *ngFor="let event of timelineData[activeTabIndex].events"
+        >
+          <div class="event-time">{{ event.time }}</div>
+          <div class="event-title">{{ event.title }}</div>
+          <div class="event-description">{{ event.description }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

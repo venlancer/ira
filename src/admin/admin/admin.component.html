@@ -1,0 +1,13 @@
+<div class="card-container">
+  <div class="card" *ngFor="let item of data" (click)="viewEntries(item.type)">
+    <div class="card-header">
+      {{ item.title }}
+    </div>
+    <div class="card-body">
+      <p>Total Entries: <span>{{ item.entries }}</span></p>
+    </div>
+  </div>
+</div>
+
+<app-custom-tbl [tableName]="'Brocher Entries List'" [headers]="showHeadings" [tableData]="showData">
+</app-custom-tbl>

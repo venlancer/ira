@@ -1,0 +1,88 @@
+/* about-us.component.scss */
+
+/* General Row Styling */
+.row {
+  display: flex;        /* Side by side for larger screens */
+  align-items: flex-start;
+}
+
+/* Left Side: About Us Box */
+.about-us-container {
+  flex: 2; /* Increase the size of About Us box */
+  margin-left: 0; /* Attach to the very left edge */
+  padding-left: 5%; /* Inner content starts 5% from left of container */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  // height:1050px;
+}
+
+.about-us {
+  padding: 20px;
+}
+
+/* Right Side: Event Details Box */
+.event-details-container {
+  flex: 1; /* Reduce the size of Event Details box */
+  margin-left: 2%; /* Gap between the two boxes */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-right: 2%;
+}
+
+/* Event Image */
+.event-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+  height: 720px;
+  margin-left: 20%;
+}
+
+.event-details .event-image {
+  display: block;
+  margin: 0 auto;
+}
+
+.event-txt {
+  text-align: left !important;
+  margin-left: 5% !important;
+  margin-bottom: 1px;
+  font-size: 1.3rem !important;
+  color: #000000;
+  font-weight: 500;
+}
+/* ---------------
+   MEDIA QUERIES
+   --------------- */
+
+/* 
+  On screens smaller than 768px:
+  - Stack the containers vertically
+  - Reset margins so they don't push the containers off screen 
+*/
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;      /* Stack vertically */
+  }
+
+  .about-us-container,
+  .event-details-container {
+    flex: unset;                /* Remove the fixed flex sizing */
+    width: 100%;                /* Full width for each container */
+    margin-left: 0;             /* No extra gap on mobile */
+    margin-right: 0;            /* No extra gap on mobile */
+    margin-bottom: 1rem;        /* Optional spacing between boxes */
+    padding-left: 5%;           /* Consistent left padding (optional) */
+  }
+  
+  /* If you want to shrink the event image on smaller devices: */
+  .event-image {
+    height: auto;               /* Let height adjust automatically */
+    margin-left: 0;             /* Remove the left margin so it's truly centered */
+    max-width: 80%;            /* Example: narrower image for mobile */
+  }
+}

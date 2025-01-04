@@ -1,0 +1,20 @@
+<div class="container my-4">
+    <h1 class="txt-heading">SCIENTIFIC SESSIONS</h1>
+    <!-- Manual Tabs (Bootstrap nav) -->
+    <ul class="nav nav-pills nav-fill big-tabs">
+        <li class="nav-item" *ngFor="let category of categories; let i = index">
+            <a class="nav-link" [class.active]="activeTab === i" (click)="activeTab = i">
+                {{ category.title }}
+            </a>
+        </li>
+    </ul>
+
+    <!-- Content Area -->
+    <div class="mt-3" *ngIf="activeTab >= 0">
+        <div class="chips-container">
+            <span class="chip" *ngFor="let item of categories[activeTab]?.items">
+                {{ item }}
+            </span>
+        </div>
+    </div>
+</div>

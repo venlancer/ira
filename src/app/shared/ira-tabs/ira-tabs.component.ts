@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,13 +11,14 @@ export class IraTabsComponent implements OnInit {
 
   activeTab = 1; // Initial active tab
   searchQuery: string = '';
-  events = [
+  upcomingEvents = [
     {
       imageSrc: './assets/img/theme/designsystem.png',
       title: 'Innovative Design Workshop',
       description: 'A hands-on workshop to explore modern design concepts.',
       organizer: 'Creative Minds',
-      date: new Date(2024, 11, 1)
+      date: new Date(2024, 11, 1),
+      navTitle: 'InnovationDesignWorkshop'
     },
     {
       imageSrc: './assets/img/theme/designsystem.png',
@@ -116,14 +118,15 @@ export class IraTabsComponent implements OnInit {
       organizer: 'GreenTech Innovators',
       date: new Date(2024, 11, 17)
     }
-];
+  ];
   pastEvents = [
     {
       imageSrc: './assets/img/theme/designsystem.png',
       title: 'Digital Transformation Summit',
       description: 'Exploring how digital technologies reshape industries.',
       organizer: 'Transform Leaders',
-      date: new Date(2023, 5, 15)
+      date: new Date(2023, 5, 15),
+      navTitle: 'DigitalTransformationSummit'
     },
     {
       imageSrc: './assets/img/theme/designsystem.png',
@@ -230,7 +233,8 @@ export class IraTabsComponent implements OnInit {
       title: 'Digital Transformation Summit',
       description: 'Exploring how digital technologies reshape industries.',
       organizer: 'Transform Leaders',
-      date: new Date(2023, 5, 15)
+      date: new Date(2023, 5, 15),
+      navTitle: 'DigitalTransformationSummit'
     },
     {
       imageSrc: './assets/img/theme/designsystem.png',
@@ -331,11 +335,18 @@ export class IraTabsComponent implements OnInit {
       date: new Date(2022, 5, 19)
     }
   ]
-  
-  filteredEvents = [...this.events];
+
+  tabs = [
+    { id: 1, label: 'Upcoming Conferences', events: this.upcomingEvents },
+    { id: 2, label: 'Past Conferences', events: this.pastEvents },
+    { id: 3, label: 'Webinars', events: this.webinars }
+  ];
+
+
+  filteredEvents = [...this.tabs[0].events];
   queryData = this.filteredEvents
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -352,16 +363,21 @@ export class IraTabsComponent implements OnInit {
     }
   }
 
+  navigateToPage(pageName: string): void {
+    debugger;
+    this.router.navigate([`/${pageName}`]);
+  }
+
   onTabChange(event) {
-    if(event == 1) {
-      this.filteredEvents = [...this.events];
-      this.queryData = this.events
+    if (event == 1) {
+      this.filteredEvents = [...this.tabs[0].events];
+      this.queryData = this.tabs[0].events
     }
-    if(event == 2) {
+    if (event == 2) {
       this.filteredEvents = [...this.pastEvents];
       this.queryData = this.pastEvents
     }
-    if(event == 3) {
+    if (event == 3) {
       this.filteredEvents = [...this.webinars];
       this.queryData = this.webinars
     }
