@@ -1,0 +1,16 @@
+.custom-card {
+    cursor: pointer;
+    margin-bottom: 2rem;
+    height: 30rem; /* Adjust for taller cards */
+    width: 100%; /* Use the column's width */
+  }
+  
+  .custom-card .card-img-top {
+    height: 20rem;
+    object-fit: fill;
+  }
+  
+  .custom-card .card-body {
+    text-align: center; /* Optional for aligning text */
+  }
+  

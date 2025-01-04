@@ -1,0 +1,15 @@
+<nav class="navbar">
+  <!-- Logo on the left corner -->
+  <div class="navbar-logo">
+      <img src="./assets/img/icons/Design.svg" alt="Logo" style="max-height: 80px; height:80px">
+  </div>
+
+  <!-- Navigation items on the right -->
+  <ul class="navbar-nav">
+    <li class="nav-item" *ngFor="let item of navItems">
+      <a class="nav-link" [routerLink]="['/', pageName, item.link]" (click)="navigateToHome(item.name)" routerLinkActive="active">
+        <span class="nav-link-inner--text">{{ item.name }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

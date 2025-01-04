@@ -1,0 +1,16 @@
+.section.section-shaped {
+  position: relative;
+  overflow: hidden; /* Ensures curve stays within section bounds */
+}
+
+.section.section-shaped:after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Adjust height as needed for curve depth */
+  background: white; /* Adjust to match section background */
+  border-radius: 50% 50% 0 0;
+  transform: scaleX(1.15); /* Adds concave stretch effect */
+}

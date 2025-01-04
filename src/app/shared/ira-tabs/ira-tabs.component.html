@@ -13,52 +13,18 @@
   </div>
 
   <!-- Tab Navigation -->
-  <ul ngbNav #navTabs="ngbNav" class="nav-pills nav-fill custom-nav" [(activeId)]="activeTab"  (activeIdChange)="onTabChange($event)">
-    <li [ngbNavItem]="1">
-      <a ngbNavLink class="btn custom-btn">Upcoming Conferences</a>
+  <ul ngbNav #navTabs="ngbNav" class="nav-pills nav-fill custom-nav" [(activeId)]="activeTab" (activeIdChange)="onTabChange($event)">
+    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
+      <a ngbNavLink class="btn custom-btn">{{ tab.label }}</a>
       <ng-template ngbNavContent>
-        <!-- Cards Row -->
         <div class="row justify-content-center">
-          <div *ngFor="let event of filteredEvents" class="col-md-3 mb-4 card-item">
+          <div *ngFor="let event of tab.events" class="col-md-3 mb-4 card-item">
             <app-event-cards 
-              [imageSrc]="event.imageSrc" 
-              [title]="event.title" 
-              [description]="event.description" 
-              [organizer]="event.organizer" 
-              [date]="event.date">
-            </app-event-cards>
-          </div>
-        </div>
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2">
-      <a ngbNavLink class="btn custom-btn">Past Conferences</a>
-      <ng-template ngbNavContent>
-        <!-- Cards Row -->
-        <div class="row justify-content-center">
-          <div *ngFor="let event of filteredEvents" class="col-md-3 mb-4 card-item">
-            <app-event-cards 
-              [imageSrc]="event.imageSrc" 
-              [title]="event.title" 
-              [description]="event.description" 
-              [organizer]="event.organizer" 
-              [date]="event.date">
-            </app-event-cards>
-          </div>
-        </div>
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="3">
-      <a ngbNavLink class="btn custom-btn">Webinars</a>
-      <ng-template ngbNavContent>
-        <!-- Cards Row -->
-        <div class="row justify-content-center">
-          <div *ngFor="let event of filteredEvents" class="col-md-3 mb-4 card-item">
-            <app-event-cards 
-              [imageSrc]="event.imageSrc" 
-              [title]="event.title" 
-              [description]="event.description" 
-              [organizer]="event.organizer" 
+              (click)="navigateToPage(event.navTitle)"
+              [imageSrc]="event.imageSrc"
+              [title]="event.title"
+              [description]="event.description"
+              [organizer]="event.organizer"
               [date]="event.date">
             </app-event-cards>
           </div>
@@ -66,6 +32,7 @@
       </ng-template>
     </li>
   </ul>
+  
 
   <!-- Display the selected tab content -->
   <div [ngbNavOutlet]="navTabs"></div>

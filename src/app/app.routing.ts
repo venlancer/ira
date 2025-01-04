@@ -10,17 +10,35 @@ import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { ConferencesComponent } from './conferences/conferences.component';
 import { IraGalleryComponent } from './ira-gallery/ira-gallery.component';
+import { DynamicpagecomponentComponent } from './shared/dynamicpagecomponent/dynamicpagecomponent.component';
+import { AbstractSubmissionComponent } from './shared/abstract-submission/abstract-submission.component';
+import { DynamicLandingComponent } from './shared/dynamic-landing/dynamic-landing.component';
+import { EventMembersComponent } from './shared/event-members/event-members.component';
+import { EventRegistrationComponent } from './shared/event-registration/event-registration.component';
 
-const routes: Routes =[
-    { path: 'home',             component: HomeComponent },
-    { path: 'ira-conferences',             component: ConferencesComponent },
-    { path: 'ira-gallery',             component: IraGalleryComponent },
-    // { path: 'user-profile',     component: ProfileComponent },
-    // { path: 'register',           component: SignupComponent },
-    { path: '',          component: LandingComponent },
-    // { path: 'login',          component: LoginComponent },
-    { path: '', redirectTo: 'landing', pathMatch: 'full' }
+const routes: Routes = [
+  { path: '', component: LandingComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'ira-conferences', component: ConferencesComponent },
+  { path: 'ira-gallery', component: IraGalleryComponent },
+  // { path: 'user-profile', component: ProfileComponent },
+  // { path: 'register', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+   //@ts-ignore
+   { path: 'admin', loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule) }, // Lazy-loaded Admin module
+  { 
+    path: ':pageName', 
+    component: DynamicpagecomponentComponent,
+    children: [
+      { path: '', component: DynamicLandingComponent }, // Default child for pageName
+      { path: 'abstract-submission', component: AbstractSubmissionComponent },
+      { path: 'event-registration', component: EventRegistrationComponent },
+      { path: 'event-members', component: EventMembersComponent }
+    ]
+  },
 ];
+
 
 @NgModule({
   imports: [

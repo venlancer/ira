@@ -1,0 +1,104 @@
+/* Card Container */
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 95%;
+  }
+  
+  /* Card Header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+  }
+  
+  /* Actions (Search & Export) */
+  .header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .search-bar {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 250px;
+  }
+  
+  .export-btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .export-btn i {
+    margin-right: 5px;
+  }
+  
+  .export-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Card Body */
+  .card-body {
+    padding: 20px;
+  }
+  
+  /* Table Container with Scroll */
+  .table-responsive {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-y: hidden; /* Hides vertical scrolling */
+    max-height: 500px; /* Optional: Limits table height */
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Ensures proper layout for many columns */
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .table th {
+    text-align: left;
+    font-weight: bold;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  

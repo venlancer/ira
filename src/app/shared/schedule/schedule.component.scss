@@ -1,0 +1,107 @@
+/*************************************
+  CONTAINER FOR 10% PADDING
+*************************************/
+.tabs-container {
+    /* 10% padding on left and right, 
+       and a max width to keep it from stretching too wide */
+    padding: 0 10%;
+    max-width: 1800px; 
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-top: 5rem;
+  }
+  
+  /*************************************
+    TABS STYLING
+  *************************************/
+  .tabs-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .tabs-list li {
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    transition: color 0.2s;
+  }
+  
+  .tabs-list li:hover {
+    color: #222;
+  }
+  
+  .tabs-list li.active {
+    color: #3d1d5e; /* Active tab color */
+    font-weight: 700;
+    border-bottom: 3px solid #3d1d5e; /* A highlight under active tab */
+  }
+  
+  /*************************************
+    TAB CONTENT AREA
+  *************************************/
+  .tab-content {
+    margin-top: 2rem;
+  }
+  
+  /*************************************
+    EVENTS GRID
+  *************************************/
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* "minmax(300px, 1fr)" => each column at least 300px wide, 
+       then fill the container evenly. */
+    grid-gap: 1.5rem; /* space between grid items */
+    margin-bottom: 2rem;
+  }
+  
+  .event-card {
+    background-color: #fefefe;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  .event-time {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.4rem;
+  }
+  
+  .event-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #3d1d5e;
+    margin-bottom: 0.2rem;
+  }
+  
+  .event-description {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  /* Optional styling tweaks for responsiveness */
+  @media (max-width: 600px) {
+    .tabs-list {
+      flex-wrap: wrap;
+    }
+  
+    .tabs-list li {
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  .txt-heading {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 4%;
+  }

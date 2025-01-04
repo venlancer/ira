@@ -1,3 +1,5 @@
-<app-navbar></app-navbar>
+<app-navbar *ngIf="activeNavbar === 'normal'"></app-navbar>
+<app-event-navbar *ngIf="activeNavbar === 'dynamic'"></app-event-navbar>
+<app-admin-nav *ngIf="activeNavbar === 'admin'"></app-admin-nav>
 <router-outlet></router-outlet>
 <!-- <app-footer></app-footer> -->
