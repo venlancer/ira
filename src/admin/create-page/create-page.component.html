@@ -1,0 +1,104 @@
+<div class="container mt-4">
+    <div class="card shadow-lg">
+      <div class="card-header bg-primary text-white">
+        <h4 class="card-title mb-0 custom-clr">Create Event</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+          <div class="row g-3">
+            <!-- Event Name -->
+            <div class="col-md-6">
+              <label for="eventName" class="form-label custom-clr">Event Name <span class="text-danger">*</span></label>
+              <input id="eventName" type="text" class="form-control" formControlName="eventName" required />
+              <div *ngIf="eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched" class="text-danger">
+                Event name is required.
+              </div>
+            </div>
+  
+            <!-- Venue -->
+            <div class="col-md-6">
+              <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
+              <input id="venue" type="text" class="form-control" formControlName="venue" required />
+              <div *ngIf="eventForm.get('venue')?.invalid && eventForm.get('venue')?.touched" class="text-danger">
+                Venue is required.
+              </div>
+            </div>
+  
+            <!-- Description -->
+            <div class="col-12">
+              <label for="description" class="form-label">Event Description <span class="text-danger">*</span></label>
+              <textarea id="description" class="form-control" formControlName="description" rows="3" required></textarea>
+              <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" class="text-danger">
+                Description is required.
+              </div>
+            </div>
+  
+            <!-- Contact -->
+            <div class="col-md-6">
+              <label for="contact" class="form-label">Contact <span class="text-danger">*</span></label>
+              <input id="contact" type="text" class="form-control" formControlName="contact" required />
+              <div *ngIf="eventForm.get('contact')?.invalid && eventForm.get('contact')?.touched" class="text-danger">
+                Enter a valid contact number.
+              </div>
+            </div>
+  
+            <!-- Deadline Date -->
+            <div class="col-md-6">
+              <label for="deadline" class="form-label">Deadline Date <span class="text-danger">*</span></label>
+              <input id="deadline" type="date" class="form-control" formControlName="deadline" required />
+              <div *ngIf="eventForm.get('deadline')?.invalid && eventForm.get('deadline')?.touched" class="text-danger">
+                Deadline date is required.
+              </div>
+            </div>
+  
+            <!-- Event Image -->
+            <div class="col-md-6">
+              <label for="eventImage" class="form-label">Event Image</label>
+              <input id="eventImage" type="file" class="form-control" (change)="onFileSelect($event)" />
+            </div>
+  
+            <!-- Scientific Sessions -->
+            <div class="col-12">
+              <label for="scientificSessions" class="form-label">Scientific Sessions <span class="text-danger">*</span></label>
+              <div formArrayName="scientificSessions">
+                <div *ngFor="let session of scientificSessions.controls; let i = index" [formGroupName]="i" class="mb-2">
+                  <input type="text" placeholder="Session Title" class="form-control mb-1" formControlName="title" />
+                  <textarea rows="2" placeholder="Items (comma-separated)" class="form-control" formControlName="items"></textarea>
+                  <button type="button" class="btn btn-danger mt-1" (click)="removeScientificSession(i)">Remove</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary mt-2" (click)="addScientificSession()">Add Session</button>
+            </div>
+  
+            <!-- Conference Schedule -->
+            <div class="col-12">
+              <label for="conferenceSchedule" class="form-label">Conference Schedule <span class="text-danger">*</span></label>
+              <div formArrayName="conferenceSchedule">
+                <div *ngFor="let day of conferenceSchedule.controls; let i = index" [formGroupName]="i" class="mb-3">
+                  <input type="text" placeholder="Day Label" class="form-control mb-1" formControlName="dayLabel" />
+                  <div formArrayName="events">
+                    <div *ngFor="let event of day.get('events').controls; let j = index" [formGroupName]="j" class="mb-2">
+                      <input type="text" placeholder="Time" class="form-control mb-1" formControlName="time" />
+                      <input type="text" placeholder="Title" class="form-control mb-1" formControlName="title" />
+                      <textarea rows="2" placeholder="Description" class="form-control" formControlName="description"></textarea>
+                      <button type="button" class="btn btn-danger mt-1" (click)="removeEvent(i, j)">Remove Event</button>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary mt-2" (click)="addEvent(i)">Add Event</button>
+                  <button type="button" class="btn btn-danger mt-2" (click)="removeDay(i)">Remove Day</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary mt-2" (click)="addDay()">Add Day</button>
+            </div>
+          </div>
+  
+          <!-- Buttons -->
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-secondary" style="background-color: red; color: #ffffff; width: 20%;" (click)="resetForm()">Reset</button>
+            <button type="submit" class="btn btn-success" style="background-color: #32184c;color: #ffffff; width: 20%;" [disabled]="eventForm.invalid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

@@ -11,18 +11,17 @@ import { filter, Subscription } from 'rxjs';
 export class AdminNavComponent implements OnInit {
  public pageName: string | null = null;
   public navItems: any = [
+    { name: 'Admin Page', link: '' },
+    { name: 'Create Page', link: 'create-page' }
   ];
   constructor(private router: Router,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.pageName = this.route.snapshot['_routerState'].url.split('/')[1];
-    // this.route.params.subscribe(params => {
-    //   this.pageName = params['pageName'] || 'dynamicpage'; // Fallback to 'dynamicpage'
-    // });
   }
 
   navigateToHome(e) {
-    if(e=='Home') {
+    if(e=='Admin Page') {
       this.router.navigateByUrl("/"+this.pageName)
     }
   }

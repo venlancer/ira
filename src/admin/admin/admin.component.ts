@@ -485,12 +485,14 @@ export class AdminComponent implements OnInit {
 
   showData = [];
   showHeadings = [];
+  showTitle:any = '';
 
   constructor() { }
 
   ngOnInit(): void {
     this.showData = this.brocherData;
     this.showHeadings = this.brocherHeadings;
+    this.showTitle = 'Brocher Entries List';
   }
 
 
@@ -498,12 +500,15 @@ export class AdminComponent implements OnInit {
     if (type == 'brochure') {
       this.showData = this.brocherData
       this.showHeadings = this.brocherHeadings;
+      this.showTitle = 'Brocher Entries List';
     } else if (type == 'abstract') {
       this.showData = this.abstractData
       this.showHeadings = this.abstractHeadings;
+      this.showTitle = 'Abstract Entries List';
     } else {
       this.showData = this.registrationData
       this.showHeadings = this.registractionHeadings;
+      this.showTitle = 'Registration Entries List';
     }
   }
 
