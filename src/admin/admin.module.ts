@@ -3,19 +3,22 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
 import { AdminRoutingModule } from './admin.routing';
 import { CustomTblComponent } from './custom-tbl/custom-tbl.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreatePageComponent } from './create-page/create-page.component';
 
 
 
 @NgModule({
   declarations: [
     AdminComponent,
-    CustomTblComponent
+    CustomTblComponent,
+    CreatePageComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminModule { }
