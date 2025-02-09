@@ -12,7 +12,8 @@ export class EventNavbarComponent implements OnInit {
     { name: 'Home', link: '' }, // For DynamicLandingComponent
     { name: 'Abstract Submission', link: 'abstract-submission' },
     { name: 'Registration', link: 'event-registration' },
-    { name: 'Scientific Committee', link: 'event-members' }
+    { name: 'Scientific Committee', link: 'event-members' },
+    { name: 'Scientific Program', link: 'scientific-program' }
   ];
   constructor(private router: Router,private route: ActivatedRoute) { }
 

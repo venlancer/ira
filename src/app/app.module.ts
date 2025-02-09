@@ -38,6 +38,11 @@ import { RegistrationFormComponent } from './shared/registration-form/registrati
 import { EventPopupComponent } from './shared/event-popup/event-popup.component';
 import { AdminModule } from 'src/admin/admin.module';
 import { AdminNavComponent } from './shared/admin-nav/admin-nav.component';
+import { SponsorAndExhibitorsComponent } from './shared/sponsor-and-exhibitors/sponsor-and-exhibitors.component';
+import { ContactUsComponent } from './shared/contact-us/contact-us.component';
+import { ScheduleItemComponent } from './shared/schedule-item/schedule-item.component';
+import { EventSectionComponent } from './shared/event-section/event-section.component';
+import { EventSectionDetailsComponent } from './shared/event-section-details/event-section-details.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +74,12 @@ import { AdminNavComponent } from './shared/admin-nav/admin-nav.component';
     EventRegistrationComponent,
     RegistrationFormComponent,
     EventPopupComponent,
-    AdminNavComponent
+    AdminNavComponent,
+    SponsorAndExhibitorsComponent,
+    ContactUsComponent,
+    ScheduleItemComponent,
+    EventSectionComponent,
+    EventSectionDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,35 @@
+.container {
+    max-width: 1600px;
+    margin: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: #fff;
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px 0 0 10px;
+  }
+  
+  .bg-purple {
+    background-color: #4a3f99;
+  }
+  
+  .text-highlight {
+    color: #ffba00;
+  }
+  
+  .btn {
+    background-color: #28a745;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .btn:hover {
+    background-color: #4c4a44;
+    color: #4a3f99;
+    transform: translateX(5px);
+  }
+  

@@ -1,0 +1,131 @@
+.container {
+    .day-tabs {
+      display: flex;
+      gap: 20px;
+  
+      .day-tab {
+        text-align: center;
+        width: 20%;
+        padding: 15px 20px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+  
+        h6 {
+          font-weight: bold;
+          margin: 0;
+          color: #563d7c;
+        }
+  
+        p {
+          margin: 0;
+          font-size: 0.9rem;
+          color: #6c757d;
+        }
+  
+        &:hover {
+          background-color: #e9ecef;
+          border-color: #563d7c;
+        }
+  
+        &.active {
+          background-color: #563d7c;
+          color: white;
+  
+          h6,
+          p {
+            color: white;
+          }
+        }
+      }
+    }
+  
+    .presentations {
+      .presentation-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+  
+        .presentation-header {
+          display: flex;
+          gap: 15px;
+  
+          .speaker-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #563d7c;
+            object-fit: cover;
+          }
+  
+          .presentation-details {
+            .title {
+              font-size: 1.2rem;
+              font-weight: bold;
+              color: #563d7c;
+              margin-bottom: 5px;
+            }
+  
+            .type {
+              font-size: 0.9rem;
+              font-style: italic;
+              color: #6c757d;
+              margin-bottom: 5px;
+            }
+  
+            .speaker {
+              font-size: 0.9rem;
+              color: #343a40;
+            }
+          }
+        }
+  
+        .description {
+          margin-top: 15px;
+          font-size: 0.9rem;
+          color: #6c757d;
+        }
+  
+        .actions {
+          margin-top: 20px;
+  
+          .btn {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+  
+            &.btn-primary {
+              background-color: #563d7c;
+              border-color: #563d7c;
+  
+              &:hover {
+                background-color: #452c62;
+                border-color: #452c62;
+              }
+            }
+  
+            &.btn-outline-primary {
+              color: #563d7c;
+              border-color: #563d7c;
+  
+              &:hover {
+                background-color: #563d7c;
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

@@ -364,8 +364,9 @@ export class IraTabsComponent implements OnInit {
   }
 
   navigateToPage(pageName: string): void {
-    debugger;
-    this.router.navigate([`/${pageName}`]);
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/${pageName}`]));
+    window.open(url, '_blank');
+    // this.router.navigate([`/${pageName}`]);
   }
 
   onTabChange(event) {

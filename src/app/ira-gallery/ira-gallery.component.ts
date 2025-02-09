@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GoogleApiService } from '../services/google-api.service';
 
 @Component({
   selector: 'app-ira-gallery',
@@ -9,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class IraGalleryComponent implements OnInit {
   @ViewChild('imageModal', { static: true }) imageModal;
   selectedImage: any = null;
+  photos: any[] = [];
+  isLoading = false;
 
   images = [
     { src: './assets/img/theme/designsystem.png', title: 'Image 1', caption: 'This is Image 1', alt: 'Image 1' },
@@ -25,9 +28,25 @@ export class IraGalleryComponent implements OnInit {
     { src: './assets/img/theme/img-2-1200x1000.jpg', title: 'Image 3', caption: 'This is Image 3', alt: 'Image 3' }
   ];
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private googleApiService: GoogleApiService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    // this.isLoading = true;
+    // try {
+    //   await this.googleApiService.initializeGapi();
+    //   if (this.googleApiService.isSignedIn()) {
+    //     console.log('User is already signed in');
+    //     this.photos = await this.googleApiService.fetchPhotos();
+    //   } else {
+    //     console.log('User is not signed in, signing in...');
+    //     await this.googleApiService.signIn();
+    //     this.photos = await this.googleApiService.fetchPhotos();
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // } finally {
+    //   this.isLoading = false;
+    // }
   }
 
   openModal(image: any) {
