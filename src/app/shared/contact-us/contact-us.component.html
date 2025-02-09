@@ -1,117 +1,112 @@
 <div class="position-relative">
-    <section class="section section-lg section-shaped section-shaped-main">
-      <div class="shape shape-style-1 shape-default">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </section>
-  </div>
+  <section class="section section-lg section-shaped section-shaped-main">
+    <div class="shape shape-style-1 shape-default">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+</div>
+
 <div class="container my-5">
-    <!-- Organizer and Conference Query Section -->
-    <div class="row">
-      <!-- Organizer Card -->
-      <div class="col-md-6 mb-4">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <h5 class="card-title font-weight-bold">ORGANIZER</h5>
-            <hr />
-            <p>
-              <i class="bi bi-house-door-fill"></i> Renee M. Borges <br />
-              Scientific Research Coordinator <br />
-              Assistance with finance and general queries:
-            </p>
-            <p>
-              <i class="bi bi-telephone-fill"></i> (+91) 7997005106 <br />
-              <i class="bi bi-envelope-fill"></i> support@iragroup.org
-            </p>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Conference Query Card -->
-      <div class="col-md-6 mb-4">
-        <div class="card shadow border-0">
-          <div class="card-body">
-            <h5 class="card-title font-weight-bold">CONFERENCE QUERY</h5>
-            <hr />
-            <p>
-              Assistance with conference registrations or further information:
-            </p>
-            <p>
-              <i class="bi bi-telephone-fill"></i> (+91) 7997005106 <br />
-              <i class="bi bi-envelope-fill"></i> iraglobalevents@iragroup.org
-            </p>
-            <p>
-              <i class="bi bi-geo-alt-fill"></i> 3rd floor, Plot No: 9, Ganeswari
-              Estates, Nizampet Road, Beside Sangamitra School, Hyderabad,
-              Telangana 500090
-            </p>
-          </div>
+  <!-- Organizer and Conference Query Section -->
+  <div class="row">
+    <!-- Organizer Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">ORGANIZER</h5>
+          <hr />
+          <p>
+            <i class="bi bi-house-door-fill"></i> Renee M. Borges <br />
+            Scientific Research Coordinator <br />
+            Assistance with finance and general queries:
+          </p>
+          <p>
+            <i class="bi bi-telephone-fill"></i> (+91) 7997005106 <br />
+            <i class="bi bi-envelope-fill"></i> support@iragroup.org
+          </p>
         </div>
       </div>
     </div>
-  
-    <!-- Send Us a Message Form -->
-    <div class="card shadow border-0">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold">SEND US A MESSAGE</h5>
-        <hr />
-        <form>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Company*"
-                required
-              />
-            </div>
-            <div class="col-md-6 mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Contact Name*"
-                required
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Phone Number"
-              />
-            </div>
-            <div class="col-md-6 mb-3">
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Your Email"
-                required
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 mb-3">
-              <textarea
-                class="form-control"
-                rows="5"
-                placeholder="About Your Enquiry*"
-                required
-              ></textarea>
-            </div>
-          </div>
-          <button class="btn btn-danger">Send Email</button>
-        </form>
+
+    <!-- Conference Query Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">CONFERENCE QUERY</h5>
+          <hr />
+          <p>
+            Assistance with conference registrations or further information:
+          </p>
+          <p>
+            <i class="bi bi-telephone-fill"></i> (+91) 7997005106 <br />
+            <i class="bi bi-envelope-fill"></i> iraglobalevents@iragroup.org
+          </p>
+          <p>
+            <i class="bi bi-geo-alt-fill"></i> 3rd floor, Plot No: 9, Ganeswari
+            Estates, Nizampet Road, Beside Sangamitra School, Hyderabad,
+            Telangana 500090
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <!-- <app-footer></app-footer> -->
+
+  <!-- Send Us a Message Form -->
+  <div class="card shadow border-0">
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold">SEND US A MESSAGE</h5>
+      <hr />
+      <form [formGroup]="enquiryForm" (ngSubmit)="submitEnquiry()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <input type="text" class="form-control" formControlName="company" placeholder="Company*" required />
+            <small *ngIf="enquiryForm.get('company')?.invalid && enquiryForm.get('company')?.touched" class="text-danger">
+              Company name is required.
+            </small>
+          </div>
+          <div class="col-md-6 mb-3">
+            <input type="text" class="form-control" formControlName="name" placeholder="Contact Name*" required />
+            <small *ngIf="enquiryForm.get('name')?.invalid && enquiryForm.get('name')?.touched" class="text-danger">
+              Name is required.
+            </small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <input type="text" class="form-control" formControlName="contact" placeholder="Phone Number" />
+            <small *ngIf="enquiryForm.get('contact')?.invalid && enquiryForm.get('contact')?.touched" class="text-danger">
+              Enter a valid 10-digit phone number.
+            </small>
+          </div>
+          <div class="col-md-6 mb-3">
+            <input type="email" class="form-control" formControlName="email" placeholder="Your Email" required />
+            <small *ngIf="enquiryForm.get('email')?.invalid && enquiryForm.get('email')?.touched" class="text-danger">
+              Enter a valid email.
+            </small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-3">
+            <textarea class="form-control" rows="5" formControlName="desc" placeholder="About Your Enquiry*" required></textarea>
+            <small *ngIf="enquiryForm.get('desc')?.invalid && enquiryForm.get('desc')?.touched" class="text-danger">
+              Enquiry description is required.
+            </small>
+          </div>
+        </div>
+        <button class="btn btn-danger" type="submit" [disabled]="!enquiryForm.valid">Send Email</button>
+      </form>
+
+      <div *ngIf="submitted" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+    </div>
+  </div>
+</div>
