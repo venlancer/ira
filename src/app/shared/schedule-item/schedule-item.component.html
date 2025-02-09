@@ -1,0 +1,34 @@
+<div class="container my-5">
+    <!-- Day Tabs -->
+    <div class="day-tabs d-flex justify-content-center mb-4">
+      <div
+        class="day-tab"
+        *ngFor="let day of scheduleData; let i = index"
+        [class.active]="i === selectedDay"
+        (click)="selectDay(i)"
+      >
+        <h6>Day-{{ day.day }}</h6>
+        <p>{{ day.date | date: 'MMM dd, yyyy' }}</p>
+      </div>
+    </div>
+  
+    <!-- Presentations for the Selected Day -->
+    <div class="presentations">
+      <div class="presentation-card" *ngFor="let presentation of scheduleData[selectedDay].presentations">
+        <div class="presentation-header d-flex align-items-center">
+          <img [src]="presentation.speakerImage" alt="{{ presentation.speaker }}" class="speaker-img" />
+          <div class="presentation-details">
+            <h5 class="title">{{ presentation.title }}</h5>
+            <p class="type">{{ presentation.type }}</p>
+            <p class="speaker">{{ presentation.speaker }}, {{ presentation.affiliation }}</p>
+          </div>
+        </div>
+        <p class="description">{{ presentation.description }}</p>
+        <div class="actions d-flex">
+          <button class="btn btn-primary btn-sm me-2">View Profile</button>
+          <button class="btn btn-outline-primary btn-sm">View Abstract</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,36 +1,48 @@
 <nav id="navbar-main" class="navbar navbar-expand-lg navbar-transparent navbar-light headroom w-100 fixed-top">
   <div class="container-fluid d-flex justify-content-between align-items-center px-4">
-    
     <!-- Logo aligned to the far left -->
     <a class="navbar-brand" [routerLink]="['']">
-      <img src="./assets/img/icons/Design.svg" alt="Logo" style="max-height: 80px; height:80px">
+      <img src="./assets/img/icons/Design.svg" alt="Logo" style="max-height: 80px; height:80px" />
     </a>
 
     <!-- Toggler button for mobile view -->
-    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbar_global"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar content -->
     <div class="collapse navbar-collapse justify-content-center" id="navbar_global" [ngbCollapse]="isCollapsed">
-      
-      <!-- Navigation links, centered -->
       <ul class="navbar-nav mx-auto">
         <li class="nav-item" *ngFor="let item of navItems">
-          <a class="nav-link" [routerLink]="item.link" routerLinkActive="active">
+          <a
+            class="nav-link"
+            [routerLink]="item.link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
             <span class="nav-link-inner--text">{{ item.name }}</span>
           </a>
         </li>
       </ul>
     </div>
 
-    <!-- Social media icons, aligned to the far right -->
+    <!-- Social media icons -->
     <div class="d-none d-lg-flex">
       <ul class="navbar-nav">
         <li class="nav-item" *ngFor="let social of socialLinks">
-          <a class="nav-link nav-link-icon" [href]="social.url" target="_blank" [title]="social.tooltip">
-            <i [class]="social.iconClass" style="font-size: 1.5rem;"></i>
+          <a
+            class="nav-link nav-link-icon"
+            [href]="social.url"
+            target="_blank"
+            [title]="social.tooltip"
+          >
+            <i [class]="social.iconClass"></i>
           </a>
         </li>
       </ul>

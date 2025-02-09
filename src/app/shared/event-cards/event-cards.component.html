@@ -1,12 +1,16 @@
 <div class="card">
-    <div class="card-header p-0">
-      <img [src]="imageSrc" alt="Event Image" class="card-img-top" />
-    </div>
-    <div class="card-body">
-      <h3 class="card-title font-weight-bold">{{ title }}</h3>
-      <p class="card-text">{{ description }}</p>
-      <p class="font-weight-bold">Organized by: {{ organizer }}</p>
-      <small class="text-muted">Date: {{ date | date: 'longDate' }}</small>
-    </div>
+  <div class="card-header p-0">
+    <img [src]="imageSrc" alt="Event Image" class="card-img-top" />
   </div>
-  
+  <div class="card-body position-relative">
+    <h3 class="card-title font-weight-bold">{{ title }}</h3>
+    <p class="card-text">{{ description }}</p>
+    <p class="font-weight-bold">Organized by: {{ organizer }}</p>
+    <small class="text-muted">Date: {{ date | date: 'longDate' }}</small>
+
+    <!-- View More Button -->
+    <button class="btn btn-primary position-absolute" style="bottom: 10px; right: 10px; background-color: #172b4d !important;">
+      View More
+    </button>
+  </div>
+</div>

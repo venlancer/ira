@@ -1,0 +1,53 @@
+.event-card {
+    max-width: 1400px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .event-card-header {
+    background: linear-gradient(45deg, #6c63ff, #4a3f99);
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .event-card-body {
+    padding: 30px;
+  }
+  
+  .event-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .event-details-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .event-details-list i {
+    font-size: 1.5rem;
+    color: #4a3f99;
+  }
+  
+  .event-details-list strong {
+    color: #333;
+    margin-right: 5px;
+  }
+  

@@ -15,6 +15,9 @@ import { AbstractSubmissionComponent } from './shared/abstract-submission/abstra
 import { DynamicLandingComponent } from './shared/dynamic-landing/dynamic-landing.component';
 import { EventMembersComponent } from './shared/event-members/event-members.component';
 import { EventRegistrationComponent } from './shared/event-registration/event-registration.component';
+import { SponsorAndExhibitorsComponent } from './shared/sponsor-and-exhibitors/sponsor-and-exhibitors.component';
+import { ContactUsComponent } from './shared/contact-us/contact-us.component';
+import { ScheduleItemComponent } from './shared/schedule-item/schedule-item.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -24,6 +27,8 @@ const routes: Routes = [
   // { path: 'user-profile', component: ProfileComponent },
   // { path: 'register', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'sponsors-and-exhibitors', component: SponsorAndExhibitorsComponent },
+  { path: 'contact-us', component: ContactUsComponent },
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
    //@ts-ignore
    { path: 'admin', loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule) }, // Lazy-loaded Admin module
@@ -34,7 +39,8 @@ const routes: Routes = [
       { path: '', component: DynamicLandingComponent }, // Default child for pageName
       { path: 'abstract-submission', component: AbstractSubmissionComponent },
       { path: 'event-registration', component: EventRegistrationComponent },
-      { path: 'event-members', component: EventMembersComponent }
+      { path: 'event-members', component: EventMembersComponent },
+      { path: 'scientific-program', component: ScheduleItemComponent }
     ]
   },
 ];

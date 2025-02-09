@@ -1,0 +1,11 @@
+{
+    "/gapi": {
+      "target": "https://www.gstatic.com",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/gapi": ""
+      }
+    }
+  }
+  
