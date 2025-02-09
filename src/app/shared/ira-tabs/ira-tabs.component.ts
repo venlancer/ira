@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { GraphqlService } from 'src/app/services/graphql.service';
+import { SupabaseService } from 'src/app/supabase.service';
+import { GET_EVENTS } from '../../graphql/queries'; // Import query
 
 @Component({
   selector: 'app-ira-tabs',
@@ -341,14 +344,24 @@ export class IraTabsComponent implements OnInit {
     { id: 2, label: 'Past Conferences', events: this.pastEvents },
     { id: 3, label: 'Webinars', events: this.webinars }
   ];
+  public events:any;
 
 
   filteredEvents = [...this.tabs[0].events];
   queryData = this.filteredEvents
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private supabaseService: SupabaseService,private graphqlService: GraphqlService) { }
 
   ngOnInit(): void {
+    this.graphqlService.getApolloClient().query({ query: GET_EVENTS })
+    .then(result => {
+      this.events = result.data.eventsCollection.edges.map(edge => edge.node);
+      // this.upcomingEvents = this.events;
+      this.tabs[0].events = this.events;
+    })
+    .catch(error => {
+      console.error('GraphQL Error:', error);
+    });
   }
 
   filterEvents() {

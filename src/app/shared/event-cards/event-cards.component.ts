@@ -12,6 +12,7 @@ export class EventCardsComponent implements OnInit {
   @Input() description: string = '';
   @Input() organizer: string = '';
   @Input() date: Date = new Date();
+  @Input() edate: Date = new Date();
 
   constructor() { }
 

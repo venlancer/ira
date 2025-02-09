@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environment';
 
 declare const supabase: any; // Declare Supabase loaded from CDN
 
@@ -7,24 +9,26 @@ declare const supabase: any; // Declare Supabase loaded from CDN
 })
 export class SupabaseService {
 
-  constructor() { }
+  private supabase: SupabaseClient;
 
-   // Fetch all users
-   async getUsers() {
-    const { data, error } = await supabase.from('user table').select('*');
-    if (error) {
-      console.error("Error fetching users:", error);
+  constructor() {
+    if (!this.supabase) {
+      this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
     }
-    return data;
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
   }
 
-  // Insert a new user
-  async createUser(name: string, email: string) {
-    const { data, error } = await supabase.from('users').insert([{ name, email }]);
+  getClient() {
+    return this.supabase;
+  }
+
+  async testConnection() {
+    const { data, error } = await this.supabase.from('ira_user').select('*');
     if (error) {
-      console.error("Error inserting user:", error);
+      console.error('Supabase Connection Error:', error);
+    } else {
+      console.log('Supabase Connection Successful:', data);
     }
-    return data;
   }
 
 }

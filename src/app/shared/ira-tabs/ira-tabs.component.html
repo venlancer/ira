@@ -21,11 +21,12 @@
           <div *ngFor="let event of tab.events" class="col-md-3 mb-4 card-item">
             <app-event-cards 
               (click)="navigateToPage(event.navTitle)"
-              [imageSrc]="event.imageSrc"
+              [imageSrc]="event.image_url"
               [title]="event.title"
-              [description]="event.description"
-              [organizer]="event.organizer"
-              [date]="event.date">
+              [description]="event.short_description"
+              [organizer]="event.organised_by"
+              [date]="event.start_date"
+              [edate]="event.end_date">
             </app-event-cards>
           </div>
         </div>
