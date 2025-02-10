@@ -148,7 +148,6 @@
       }
     }
   },
-  "defaultProject": "ira-angular",
   "cli": {
     "analytics": false
   }

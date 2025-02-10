@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder, Validators, FormArray } from '@angular/forms';
 import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -30,7 +30,7 @@ export class AbstractSubmissionComponent implements OnInit {
    emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
    phonePattern = /^[0-9]{10}$/;
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) { }
+  constructor(private fb: UntypedFormBuilder, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     
