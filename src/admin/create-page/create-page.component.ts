@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-page',
@@ -8,10 +8,10 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CreatePageComponent implements OnInit {
 
-  eventForm: FormGroup;
+  eventForm: UntypedFormGroup;
   uploadedImage: File | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.eventForm = this.fb.group({
       eventName: ['', Validators.required],
       description: ['', Validators.required],
@@ -27,11 +27,11 @@ export class CreatePageComponent implements OnInit {
   }
 
   get scientificSessions() {
-    return this.eventForm.get('scientificSessions') as FormArray;
+    return this.eventForm.get('scientificSessions') as UntypedFormArray;
   }
 
   get conferenceSchedule() {
-    return this.eventForm.get('conferenceSchedule') as FormArray;
+    return this.eventForm.get('conferenceSchedule') as UntypedFormArray;
   }
 
   addScientificSession() {
@@ -61,8 +61,8 @@ export class CreatePageComponent implements OnInit {
   }
 
   addEvent(dayIndex: number) {
-    const day = this.conferenceSchedule.at(dayIndex) as FormGroup;
-    const events = day.get('events') as FormArray;
+    const day = this.conferenceSchedule.at(dayIndex) as UntypedFormGroup;
+    const events = day.get('events') as UntypedFormArray;
     events.push(
       this.fb.group({
         time: ['', Validators.required],
@@ -73,7 +73,7 @@ export class CreatePageComponent implements OnInit {
   }
 
   removeEvent(dayIndex: number, eventIndex: number) {
-    const events = (this.conferenceSchedule.at(dayIndex).get('events') as FormArray);
+    const events = (this.conferenceSchedule.at(dayIndex).get('events') as UntypedFormArray);
     events.removeAt(eventIndex);
   }
 
