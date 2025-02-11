@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkira_angular=self.webpackChunkira_angular||[]).push([[806],{83806:e=>{e.exports=function(){throw new Error("ws does not work in the browser. Browser clients must use the native WebSocket object")}}}]);
