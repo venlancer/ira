@@ -17,8 +17,8 @@ import { SectionsModule } from '../sections/sections.module';
         RouterModule,
         SectionsModule, NgbModule
     ],
-    declarations: [ HomeComponent ],
-    exports:[ HomeComponent ],
+    declarations: [HomeComponent],
+    exports: [HomeComponent],
     providers: []
 })
 export class HomeModule { }

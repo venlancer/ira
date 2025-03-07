@@ -7,7 +7,6 @@
     background: linear-gradient(90deg, black, #432067); /* Gradient background */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
     color: white;
-    margin-bottom: 10px;
   }
   
   .navbar-logo .logo {
@@ -43,8 +42,12 @@
     flex-direction: row; /* Ensure the direction is horizontal */
     list-style: none; /* Remove default bullet points */
     gap: 20px; /* Add space between items */
-    margin: 0; /* Remove default margin */
+    margin: 0 auto; /* Remove default margin */
     padding: 0; /* Remove default padding */
+  }
+
+  .navbar-nav .nav-link .nav-link-inner--text {
+    font-size: 1.2rem;
   }
   
   .nav-item {

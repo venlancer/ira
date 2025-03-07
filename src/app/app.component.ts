@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Renderer2, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { filter, Subscription } from 'rxjs';
+import { filter, Observable, Subscription } from 'rxjs';
 import { GraphqlService } from './services/graphql.service';
 import { GET_USERS } from './graphql/queries'; // Import query
 import { SupabaseService } from './supabase.service';
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
         @Inject(DOCUMENT) private document: any,
         private element: ElementRef,
         private graphqlService: GraphqlService,
-        private supabaseService: SupabaseService
+        private supabaseService: SupabaseService,
     ) { }
 
     @HostListener('window:scroll', ['$event'])
@@ -96,4 +96,5 @@ export class AppComponent implements OnInit {
             });
         this.hasScrolled();
     }
+
 }

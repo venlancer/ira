@@ -49,24 +49,56 @@
 }
 
 /* Center the cards */
+// .row {
+//   display: flex;
+//   justify-content: center;
+//   flex-wrap: wrap; /* Ensures wrapping when cards overflow */
+//   margin-left: 0px !important;
+//   margin-right: 0px !important;
+// }
+
+// /* Maintain consistent card size */
+// .card-item {
+//   margin-left: 20px;
+//   margin-right: 20px;
+//   max-width: 380px; /* Set a max-width for the card */
+//   min-width: 220px; /* Ensure cards do not shrink too much */
+//   flex: 1 1 380px; /* Flex-grow, flex-shrink, flex-basis */
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+/* Fixing card layout */
 .row {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap; /* Ensures wrapping when cards overflow */
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+  justify-content: center;
+  align-items: stretch; /* Ensure consistent card heights */
+  gap: 20px; /* Add spacing between cards */
 }
 
-/* Maintain consistent card size */
 .card-item {
-  margin-left: 20px;
-  margin-right: 20px;
-  max-width: 380px; /* Set a max-width for the card */
-  min-width: 220px; /* Ensure cards do not shrink too much */
-  flex: 1 1 380px; /* Flex-grow, flex-shrink, flex-basis */
+  max-width: 320px; /* Set a max width for consistency */
+  flex: 1 1 300px; /* Allows flex distribution */
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  margin-top: 20px;
 }
 
 /* You can also use Bootstrap's grid system for responsiveness */

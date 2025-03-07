@@ -1,17 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { ADD_CUSTOMER_ENQUIRY } from '../graphql/queries';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  constructor(private apollo: Apollo) {}
+  private HASURA_REST_URL = 'https://choice-pangolin-52.hasura.app/api/rest/customer';
+  private HASURA_ADMIN_SECRET = environment.hasurakey; // Replace with actual secret
 
-  addCustomerEnquiry(company: string, name: string, contact: string, email: string, desc: string) {
-    return this.apollo.mutate({
-      mutation: ADD_CUSTOMER_ENQUIRY,
-      variables: { company, name, contact, email, desc }
+  constructor(private http: HttpClient) {}
+
+  // Method to send customer enquiry
+  addCustomerEnquiry(company: string, name: string, contact: string, email: string, description: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-hasura-admin-secret': this.HASURA_ADMIN_SECRET
     });
+
+    const body = { 
+      object: { 
+        company, 
+        name, 
+        contact, 
+        email, 
+        description 
+      }
+    };
+
+    return this.http.post<any>(this.HASURA_REST_URL, body, { headers });
   }
 }

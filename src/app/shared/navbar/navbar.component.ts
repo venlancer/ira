@@ -13,8 +13,8 @@ export class NavbarComponent implements OnInit {
     { name: 'Home', link: '' },
     { name: 'Conferences', link: '/ira-conferences' },
     { name: 'Sponsors & Exhibitors', link: '/sponsors-and-exhibitors' },
-    { name: 'Gallery', link: '/ira-gallery' },
     { name: 'Contact Us', link: '/contact-us' },
+    { name: 'Gallery', link: '/ira-gallery' },
   ];
   public socialLinks = [
     {

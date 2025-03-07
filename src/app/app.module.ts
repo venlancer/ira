@@ -43,6 +43,10 @@ import { ContactUsComponent } from './shared/contact-us/contact-us.component';
 import { ScheduleItemComponent } from './shared/schedule-item/schedule-item.component';
 import { EventSectionComponent } from './shared/event-section/event-section.component';
 import { EventSectionDetailsComponent } from './shared/event-section-details/event-section-details.component';
+import { CustomerService } from './services/customer.service';
+import { HttpClientModule } from '@angular/common/http';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 
 @NgModule({
   declarations: [
@@ -84,14 +88,30 @@ import { EventSectionDetailsComponent } from './shared/event-section-details/eve
   imports: [
     BrowserModule,
     NgbModule,
+    HttpClientModule, 
     FormsModule,
     RouterModule,
     AppRoutingModule,
     HomeModule,
     ReactiveFormsModule,
-    AdminModule
+    AdminModule,
+    ApolloModule
   ],
-  providers: [],
+  providers: [CustomerService,     {
+    provide: APOLLO_OPTIONS,
+    useFactory: () => {
+      return {
+        cache: new InMemoryCache(),
+        link: new HttpLink({
+          uri: 'https://nxtkzkayyvkhmfvtucvb.supabase.co/graphql/v1',
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54dGt6a2F5eXZraG1mdnR1Y3ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4NTkxMjYsImV4cCI6MjA1NDQzNTEyNn0.kSQNmFBB2lKzoqEHadAA4DGABOaMmzw0CZHQa0Cqmz8`, // ✅ Add your Supabase API Key here
+            apikey: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54dGt6a2F5eXZraG1mdnR1Y3ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4NTkxMjYsImV4cCI6MjA1NDQzNTEyNn0.kSQNmFBB2lKzoqEHadAA4DGABOaMmzw0CZHQa0Cqmz8`, // ✅ Required for authentication
+          },
+        }),
+      };
+    },
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

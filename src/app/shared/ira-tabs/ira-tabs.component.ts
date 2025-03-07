@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { GraphqlService } from 'src/app/services/graphql.service';
 import { SupabaseService } from 'src/app/supabase.service';
 import { GET_EVENTS } from '../../graphql/queries'; // Import query
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-ira-tabs',
@@ -14,354 +14,61 @@ export class IraTabsComponent implements OnInit {
 
   activeTab = 1; // Initial active tab
   searchQuery: string = '';
-  upcomingEvents = [
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Innovative Design Workshop',
-      description: 'A hands-on workshop to explore modern design concepts.',
-      organizer: 'Creative Minds',
-      date: new Date(2024, 11, 1),
-      navTitle: 'InnovationDesignWorkshop'
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Future of Technology Conference',
-      description: 'Join industry leaders to discuss the future of tech innovations.',
-      organizer: 'Tech Innovators',
-      date: new Date(2024, 11, 5)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'AI and Machine Learning Symposium',
-      description: 'Dive deep into AI applications and advancements.',
-      organizer: 'AI Masters',
-      date: new Date(2024, 11, 7)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Data Science Expo',
-      description: 'Exploring the latest trends in data science and analytics.',
-      organizer: 'Data Wizards',
-      date: new Date(2024, 11, 12)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cybersecurity and Privacy Summit',
-      description: 'A crucial event for understanding security in the digital age.',
-      organizer: 'SecureTech',
-      date: new Date(2024, 11, 15)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cloud Computing Workshop',
-      description: 'Master the cloud and its potential for business transformation.',
-      organizer: 'CloudPioneers',
-      date: new Date(2024, 11, 18)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Blockchain and Cryptocurrency Forum',
-      description: 'Understand the impact of blockchain technology on various industries.',
-      organizer: 'Crypto Innovators',
-      date: new Date(2024, 11, 20)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Digital Marketing Conference',
-      description: 'Learn the latest strategies to grow your business online.',
-      organizer: 'Marketing Masters',
-      date: new Date(2024, 11, 22)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Web Development Bootcamp',
-      description: 'A comprehensive bootcamp to learn front-end and back-end development.',
-      organizer: 'Dev Academy',
-      date: new Date(2024, 11, 25)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Mobile App Development Seminar',
-      description: 'Building cutting-edge mobile applications from start to finish.',
-      organizer: 'AppCrafters',
-      date: new Date(2024, 11, 28)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'IoT Solutions Expo',
-      description: 'Explore the latest IoT devices and solutions transforming industries.',
-      organizer: 'IoT Revolution',
-      date: new Date(2024, 11, 30)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Artificial Intelligence Summit',
-      description: 'Discuss the future of AI and its integration into business.',
-      organizer: 'AI Leaders',
-      date: new Date(2024, 11, 2)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Virtual Reality Workshop',
-      description: 'Experience the immersive world of virtual reality and its applications.',
-      organizer: 'Reality Creators',
-      date: new Date(2024, 11, 10)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Tech Innovation Expo',
-      description: 'Discover the next big tech innovations and trends.',
-      organizer: 'InnovateTech',
-      date: new Date(2024, 11, 14)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Sustainable Tech Conference',
-      description: 'Learn how tech is contributing to a more sustainable world.',
-      organizer: 'GreenTech Innovators',
-      date: new Date(2024, 11, 17)
-    }
-  ];
-  pastEvents = [
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Digital Transformation Summit',
-      description: 'Exploring how digital technologies reshape industries.',
-      organizer: 'Transform Leaders',
-      date: new Date(2023, 5, 15),
-      navTitle: 'DigitalTransformationSummit'
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Big Data & Analytics Conference',
-      description: 'Analyzing big data to drive business success.',
-      organizer: 'Data Insights Group',
-      date: new Date(2023, 7, 20)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cloud Computing Revolution',
-      description: 'The future of cloud technology and infrastructure.',
-      organizer: 'Cloud Innovators',
-      date: new Date(2023, 3, 12)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'The AI Frontier Forum',
-      description: 'Pioneering advancements in artificial intelligence.',
-      organizer: 'AI Visionaries',
-      date: new Date(2022, 11, 5)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Blockchain in Business Conference',
-      description: 'Leveraging blockchain for business efficiency.',
-      organizer: 'Blockchain Ventures',
-      date: new Date(2023, 6, 18)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Mobile Tech Expo',
-      description: 'Showcasing innovations in mobile technology.',
-      organizer: 'Mobile First',
-      date: new Date(2023, 4, 25)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Machine Learning & AI Symposium',
-      description: 'Advanced techniques in machine learning and AI.',
-      organizer: 'Smart Machines',
-      date: new Date(2022, 9, 10)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Internet of Things (IoT) Forum',
-      description: 'Exploring the impact of IoT on everyday life.',
-      organizer: 'Connected World',
-      date: new Date(2023, 2, 8)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Sustainable Tech and Energy Conference',
-      description: 'Innovations in sustainable energy and technology.',
-      organizer: 'EcoTech',
-      date: new Date(2022, 10, 3)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cybersecurity Insights Summit',
-      description: 'Securing the digital future with modern security practices.',
-      organizer: 'Security Experts',
-      date: new Date(2023, 1, 14)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Virtual Reality & Augmented Reality Expo',
-      description: 'Exploring VR/AR applications across industries.',
-      organizer: 'Future Reality',
-      date: new Date(2022, 12, 12)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'E-commerce and Digital Marketing Summit',
-      description: 'Strategies for growth in e-commerce and digital marketing.',
-      organizer: 'Digital Sales Hub',
-      date: new Date(2022, 8, 22)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Fintech Innovation Forum',
-      description: 'Latest trends in financial technology and banking.',
-      organizer: 'Finance Next',
-      date: new Date(2023, 0, 5)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Healthcare Technology Summit',
-      description: 'Technological advancements in healthcare and medicine.',
-      organizer: 'Health Innovators',
-      date: new Date(2023, 3, 9)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Digital Learning and Education Conference',
-      description: 'Revolutionizing education with digital tools.',
-      organizer: 'EdTech Leaders',
-      date: new Date(2022, 5, 19)
-    }
-  ]
-  webinars = [
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Digital Transformation Summit',
-      description: 'Exploring how digital technologies reshape industries.',
-      organizer: 'Transform Leaders',
-      date: new Date(2023, 5, 15),
-      navTitle: 'DigitalTransformationSummit'
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Big Data & Analytics Conference',
-      description: 'Analyzing big data to drive business success.',
-      organizer: 'Data Insights Group',
-      date: new Date(2023, 7, 20)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cloud Computing Revolution',
-      description: 'The future of cloud technology and infrastructure.',
-      organizer: 'Cloud Innovators',
-      date: new Date(2023, 3, 12)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'The AI Frontier Forum',
-      description: 'Pioneering advancements in artificial intelligence.',
-      organizer: 'AI Visionaries',
-      date: new Date(2022, 11, 5)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Blockchain in Business Conference',
-      description: 'Leveraging blockchain for business efficiency.',
-      organizer: 'Blockchain Ventures',
-      date: new Date(2023, 6, 18)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Mobile Tech Expo',
-      description: 'Showcasing innovations in mobile technology.',
-      organizer: 'Mobile First',
-      date: new Date(2023, 4, 25)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Machine Learning & AI Symposium',
-      description: 'Advanced techniques in machine learning and AI.',
-      organizer: 'Smart Machines',
-      date: new Date(2022, 9, 10)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Internet of Things (IoT) Forum',
-      description: 'Exploring the impact of IoT on everyday life.',
-      organizer: 'Connected World',
-      date: new Date(2023, 2, 8)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Sustainable Tech and Energy Conference',
-      description: 'Innovations in sustainable energy and technology.',
-      organizer: 'EcoTech',
-      date: new Date(2022, 10, 3)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Cybersecurity Insights Summit',
-      description: 'Securing the digital future with modern security practices.',
-      organizer: 'Security Experts',
-      date: new Date(2023, 1, 14)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Virtual Reality & Augmented Reality Expo',
-      description: 'Exploring VR/AR applications across industries.',
-      organizer: 'Future Reality',
-      date: new Date(2022, 12, 12)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'E-commerce and Digital Marketing Summit',
-      description: 'Strategies for growth in e-commerce and digital marketing.',
-      organizer: 'Digital Sales Hub',
-      date: new Date(2022, 8, 22)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Fintech Innovation Forum',
-      description: 'Latest trends in financial technology and banking.',
-      organizer: 'Finance Next',
-      date: new Date(2023, 0, 5)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Healthcare Technology Summit',
-      description: 'Technological advancements in healthcare and medicine.',
-      organizer: 'Health Innovators',
-      date: new Date(2023, 3, 9)
-    },
-    {
-      imageSrc: './assets/img/theme/designsystem.png',
-      title: 'Digital Learning and Education Conference',
-      description: 'Revolutionizing education with digital tools.',
-      organizer: 'EdTech Leaders',
-      date: new Date(2022, 5, 19)
-    }
-  ]
+  upcomingEvents = [];
+  pastEvents = [];
+  webinars = [];
+  public events: any;
+  isLoading = true; // Spinner control
+  noDataAvailable = false;
 
   tabs = [
-    { id: 1, label: 'Upcoming Conferences', events: this.upcomingEvents },
-    { id: 2, label: 'Past Conferences', events: this.pastEvents },
-    { id: 3, label: 'Webinars', events: this.webinars }
+    { id: 1, label: 'Upcoming Conferences', events: [] },
+    { id: 2, label: 'Past Conferences', events: [] },
+    { id: 3, label: 'Webinars', events: [] }
   ];
-  public events:any;
 
+  filteredEvents = [];
+  queryData = [];
 
-  filteredEvents = [...this.tabs[0].events];
-  queryData = this.filteredEvents
-
-  constructor(private router: Router,private supabaseService: SupabaseService,private graphqlService: GraphqlService) { }
+  constructor(private router: Router, private eventService: EventService, private graphqlService: GraphqlService) { }
 
   ngOnInit(): void {
-    this.graphqlService.getApolloClient().query({ query: GET_EVENTS })
-    .then(result => {
-      this.events = result.data.eventsCollection.edges.map(edge => edge.node);
-      // this.upcomingEvents = this.events;
-      this.tabs[0].events = this.events;
-    })
-    .catch(error => {
-      console.error('GraphQL Error:', error);
+    this.eventService.getEvents().subscribe(
+      (response) => {
+        this.events = response.event_details; // Assign response to events array
+        this.categorizeEvents();
+      },
+      (error) => {
+        console.error('Error fetching events:', error);
+      }
+    );
+  }
+
+  categorizeEvents(): void {
+    const currentDate = new Date();
+    this.upcomingEvents = [];
+    this.pastEvents = [];
+    this.webinars = [];
+
+    this.events.forEach(event => {
+      const eventEndDate = new Date(event.end_date);
+      if (event.event_type.toLowerCase() === 'conference') {
+        if (eventEndDate < currentDate) {
+          this.pastEvents.push(event);
+        } else {
+          this.upcomingEvents.push(event);
+        }
+      } else if (event.event_type.toLowerCase() === 'webinar') {
+        this.webinars.push(event);
+      }
     });
+
+    // Assign categorized data to tabs
+    this.tabs[0].events = this.upcomingEvents;
+    this.tabs[1].events = this.pastEvents;
+    this.tabs[2].events = this.webinars;
+
+    this.onTabChange(this.activeTab);
   }
 
   filterEvents() {
@@ -377,25 +84,25 @@ export class IraTabsComponent implements OnInit {
   }
 
   navigateToPage(pageName: string): void {
-    const url = this.router.serializeUrl(this.router.createUrlTree([`/${pageName}`]));
+    const formattedName = this.formatString(pageName);
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/${formattedName}`]));
     window.open(url, '_blank');
-    // this.router.navigate([`/${pageName}`]);
   }
 
-  onTabChange(event) {
-    if (event == 1) {
-      this.filteredEvents = [...this.tabs[0].events];
-      this.queryData = this.tabs[0].events
-    }
-    if (event == 2) {
+  formatString(input) {
+    return input.toLowerCase().replace(/\s+/g, '');
+  }
+
+  onTabChange(eventId: number) {
+    if (eventId === 1) {
+      this.filteredEvents = [...this.upcomingEvents];
+      this.queryData = this.upcomingEvents;
+    } else if (eventId === 2) {
       this.filteredEvents = [...this.pastEvents];
-      this.queryData = this.pastEvents
-    }
-    if (event == 3) {
+      this.queryData = this.pastEvents;
+    } else if (eventId === 3) {
       this.filteredEvents = [...this.webinars];
-      this.queryData = this.webinars
+      this.queryData = this.webinars;
     }
   }
-
-
 }

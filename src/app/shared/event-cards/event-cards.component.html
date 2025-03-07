@@ -1,6 +1,6 @@
 <div class="card shadow-sm">
   <div class="card-header p-0">
-    <img *ngIf="imageSrc; else noImage" [src]="imageSrc" alt="Event Image" class="card-img-top">
+    <img *ngIf="formattedImageSrc; else noImage" [src]="formattedImageSrc" alt="Event Image" class="card-img-top">
     <ng-template #noImage>
       <div class="no-image-placeholder">
         No Image Available

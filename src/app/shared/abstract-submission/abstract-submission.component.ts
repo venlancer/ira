@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, UntypedFormBuilder, Validators, FormArray } from '@angular/forms';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AbstractService } from 'src/app/services/abstract.service';
 
 @Component({
   selector: 'app-abstract-submission',
@@ -8,57 +8,70 @@ import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./abstract-submission.component.scss']
 })
 export class AbstractSubmissionComponent implements OnInit {
+  
+  abstractForm: FormGroup;
+  file: File | null = null;
+  isSubmitting = false;
+  fileError:any;
 
   titles = ['Dr.', 'Mr.', 'Ms.', 'Prof.'];
   countries = ['United States', 'Canada', 'India', 'Germany', 'Australia'];
   categories = ['Research', 'Review', 'Case Study', 'Technical'];
 
-  formData = {
-    title: '',
-    fullName: '',
-    email: '',
-    phone: '',
-    country: '',
-    authorsAffiliation: '',
-    contactAddress: '',
-    abstractCategory: '',
-  };
-
-  file: File | null = null;
-
-   // Regular expressions for email and phone validations
-   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-   phonePattern = /^[0-9]{10}$/;
-
-  constructor(private fb: UntypedFormBuilder, private modalService: NgbModal) { }
-
-  ngOnInit(): void {
-    
+  constructor(private fb: FormBuilder, private abstractService: AbstractService) {
+    this.abstractForm = this.fb.group({
+      title: ['', Validators.required],
+      fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      country: ['', Validators.required],
+      authorsAffiliation: [''],
+      contactAddress: ['', Validators.required],
+      abstractCategory: ['', Validators.required]
+    });
   }
+
+  ngOnInit(): void {}
 
   onFileChange(event: any): void {
     this.file = event.target.files[0];
   }
 
-  onSubmit(form: any): void {
-    if (
-      form.valid &&
-      this.file &&
-      this.emailPattern.test(this.formData.email) &&
-      this.phonePattern.test(this.formData.phone)
-    ) {
-      console.log('Form Data:', this.formData);
-      console.log('File:', this.file);
-      alert('Abstract submitted successfully!');
-    } else {
-      alert('Please fill out all required fields correctly!');
+  async onSubmit(): Promise<void> {
+    if (this.abstractForm.invalid) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    try {
+      let fileBase64 = null;
+
+      if (this.file) {
+        fileBase64 = await this.convertFileToBase64(this.file);
+      }
+
+      const formData = {
+        ...this.abstractForm.value,
+        filedata: fileBase64 // Ensure lowercase "filedata" to match Supabase
+      };
+
+      console.log("Final FormData before sending:", formData);
+
+      await this.abstractService.insertAbstractData(formData);
+      alert("Abstract submitted successfully!");
+      this.onReset();
+    } catch (error) {
+      console.error("Error submitting abstract:", error);
+      alert("Failed to submit abstract. Please try again.");
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
-  // Allow only numeric input in the phone number field
   onlyNumberKey(event: KeyboardEvent): boolean {
-    const charCode = event.keyCode ? event.keyCode : event.which;
-    // Allow only numbers (0-9)
+    const charCode = event.which ? event.which : event.keyCode;
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
       return false;
@@ -67,18 +80,20 @@ export class AbstractSubmissionComponent implements OnInit {
   }
 
   onReset(): void {
-    this.formData = {
-      title: '',
-      fullName: '',
-      email: '',
-      phone: '',
-      country: '',
-      authorsAffiliation: '',
-      contactAddress: '',
-      abstractCategory: '',
-    };
+    this.abstractForm.reset();
     this.file = null;
   }
 
-
+  async convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Remove metadata (data:application/pdf;base64,)
+        const base64String = (reader.result as string).split(",")[1];
+        resolve(base64String);
+      };
+      reader.onerror = error => reject(error);
+    });
+  }
 }
