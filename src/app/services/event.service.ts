@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class EventService {
 
   private HASURA_REST_URL = 'https://choice-pangolin-52.hasura.app/api/rest/event_details';
+  private API_URL = 'https://choice-pangolin-52.hasura.app/api/rest/insertcompleteevent';
   private HASURA_ADMIN_SECRET = environment.hasurakey; // Replace with actual key
 
   constructor(private http: HttpClient) {}
@@ -21,4 +22,14 @@ export class EventService {
 
     return this.http.get<any>(this.HASURA_REST_URL, { headers });
   }
+
+  createEvent(eventData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-hasura-admin-secret': this.HASURA_ADMIN_SECRET
+    });
+
+    return this.http.post(this.API_URL, eventData, { headers });
+  }
+
 }

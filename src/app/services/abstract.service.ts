@@ -1,56 +1,24 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AbstractService {
-  private supabase: SupabaseClient;
+  private hasuraUrl = 'https://choice-pangolin-52.hasura.app/api/rest/abstract_submission';
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'x-hasura-admin-secret': environment.hasurakey // Replace with your actual Hasura admin secret
+  });
 
-  constructor() {
-    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
+  constructor(private http: HttpClient) {}
+
+  submitAbstract(data: any): Observable<any> {
+    const payload = { 
+      object: data  // 🚀 Ensure the correct format
+    };
+    return this.http.post(this.hasuraUrl, payload, { headers: this.headers });
   }
-
-  // Upload file to Supabase Storage
-  async uploadFile(file: File): Promise<string> {
-    if (!file) throw new Error("No file provided");
-
-    const bucketName = 'abstracts'; // Ensure this matches your Supabase bucket name
-    const filePath = `${Date.now()}_${file.name}`;
-
-    // Upload the file
-    const { data, error } = await this.supabase.storage
-      .from(bucketName)
-      .upload(filePath, file);
-
-    if (error) {
-      console.error("File upload error:", error);
-      throw error;
-    }
-
-    // Get public URL of the uploaded file
-    return this.supabase.storage.from(bucketName).getPublicUrl(filePath).data.publicUrl;
-  }
-
-  getSupabaseClient(): SupabaseClient {
-    return this.supabase;
-  }
-
-async insertAbstractData(formData: any): Promise<any> {
-  console.log("Submitting form data:", formData);
-
-  const { data, error } = await this.supabase
-    .from('abstract_submission')
-    .insert([formData]);
-
-  if (error) {
-    console.error("Database insert error:", error);
-    throw error;
-  }
-
-  return data;
-}
-
-  
 }

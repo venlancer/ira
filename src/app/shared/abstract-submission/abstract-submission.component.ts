@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AbstractService } from 'src/app/services/abstract.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
   selector: 'app-abstract-submission',
@@ -18,7 +19,7 @@ export class AbstractSubmissionComponent implements OnInit {
   countries = ['United States', 'Canada', 'India', 'Germany', 'Australia'];
   categories = ['Research', 'Review', 'Case Study', 'Technical'];
 
-  constructor(private fb: FormBuilder, private abstractService: AbstractService) {
+  constructor(private fb: FormBuilder, private abstractService: AbstractService, public fileUploadService:FileUploadService) {
     this.abstractForm = this.fb.group({
       title: ['', Validators.required],
       fullName: ['', Validators.required],
@@ -37,38 +38,84 @@ export class AbstractSubmissionComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (this.abstractForm.invalid) {
       alert("Please fill all required fields.");
       return;
     }
-
+  
     this.isSubmitting = true;
-
-    try {
-      let fileBase64 = null;
-
-      if (this.file) {
-        fileBase64 = await this.convertFileToBase64(this.file);
-      }
-
+    let fileUrl: string | null = null;
+  
+    // 1️⃣ Check if a file is selected
+    if (this.file) {
+      this.fileUploadService.uploadFile(this.file)
+        .then((url) => {
+          console.log("File uploaded to S3:", url);
+          fileUrl = url;
+  
+          // 2️⃣ Once file is uploaded, prepare form data
+          const formData = {
+            title: this.abstractForm.value.title,
+            full_name: this.abstractForm.value.fullName,
+            email: this.abstractForm.value.email,
+            phone: this.abstractForm.value.phone,
+            country: this.abstractForm.value.country,
+            authors_affiliation: this.abstractForm.value.authorsAffiliation,
+            contact_address: this.abstractForm.value.contactAddress,
+            abstract_category: this.abstractForm.value.abstractCategory,
+            file_url: fileUrl // ✅ Send S3 file URL
+          };
+  
+          console.log("Final FormData before sending to Hasura:", formData);
+  
+          // 3️⃣ Send data to Hasura API
+          return this.abstractService.submitAbstract(formData).toPromise();
+        })
+        .then((response) => {
+          console.log("Response from Hasura:", response);
+          alert("Abstract submitted successfully!");
+          this.onReset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Failed to submit abstract. Please try again.");
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
+    } else {
+      // If no file, send form data without file URL
       const formData = {
-        ...this.abstractForm.value,
-        filedata: fileBase64 // Ensure lowercase "filedata" to match Supabase
+        title: this.abstractForm.value.title,
+        full_name: this.abstractForm.value.fullName,
+        email: this.abstractForm.value.email,
+        phone: this.abstractForm.value.phone,
+        country: this.abstractForm.value.country,
+        authors_affiliation: this.abstractForm.value.authorsAffiliation,
+        contact_address: this.abstractForm.value.contactAddress,
+        abstract_category: this.abstractForm.value.abstractCategory,
+        file_url: null // No file uploaded
       };
-
-      console.log("Final FormData before sending:", formData);
-
-      await this.abstractService.insertAbstractData(formData);
-      alert("Abstract submitted successfully!");
-      this.onReset();
-    } catch (error) {
-      console.error("Error submitting abstract:", error);
-      alert("Failed to submit abstract. Please try again.");
-    } finally {
-      this.isSubmitting = false;
+  
+      console.log("Submitting form data without file:", formData);
+  
+      this.abstractService.submitAbstract(formData).toPromise()
+        .then((response) => {
+          console.log("Response from Hasura:", response);
+          alert("Abstract submitted successfully!");
+          this.onReset();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Failed to submit abstract. Please try again.");
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
     }
   }
+  
 
   onlyNumberKey(event: KeyboardEvent): boolean {
     const charCode = event.which ? event.which : event.keyCode;

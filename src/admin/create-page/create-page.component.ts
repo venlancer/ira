@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import { Router } from '@angular/router';
-import { ADD_NEW_EVENT } from 'src/app/graphql/queries'; // ✅ Updated Mutation
+import { EventService } from 'src/app/services/event.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
+
 
 @Component({
   selector: 'app-create-page',
@@ -13,7 +13,7 @@ export class CreatePageComponent implements OnInit {
 
   eventForm: UntypedFormGroup;
   uploadedImage: File | null = null;
-  isSubmitting: boolean = false;
+  isSubmitting = false;
 
   // Static Participation Types
   participationTypes: string[] = [
@@ -26,7 +26,7 @@ export class CreatePageComponent implements OnInit {
     "Package B (Registration + three nights accommodation)"
   ];
 
-  constructor(private fb: UntypedFormBuilder, private apollo: Apollo, private router: Router) {
+  constructor(private fb: UntypedFormBuilder, private eventService: EventService, private fileUploadService: FileUploadService) {
     this.eventForm = this.fb.group({
       eventName: ['', Validators.required],
       description: ['', Validators.required],
@@ -40,39 +40,63 @@ export class CreatePageComponent implements OnInit {
       lateTerm: ['', Validators.required],
       endDate: ['', Validators.required],
 
+      event_details_id: [3, Validators.required],  // ✅ Ensure correct event details ID
+
+      // Form Arrays
       scientificSessions: this.fb.array([]),
       conferenceSchedule: this.fb.array([]),
-
-      // Pricing Form Array (Mapped to Participation Types)
-      registrationPrices: this.fb.array(
-        this.participationTypes.map(() => this.createPricingGroup())
+      scientificProgram: this.fb.array([]),
+      eventPricings: this.fb.array(
+        this.participationTypes.map((type) => this.fb.group({
+          participation_type: [type, Validators.required], // ✅ Ensure this gets set properly
+          early_bird_price: [0, [Validators.required, Validators.min(0)]], // ✅ Default value
+          mid_term_price: [0, [Validators.required, Validators.min(0)]],
+          late_price: [0, [Validators.required, Validators.min(0)]]
+        }))
       )
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.registrationPrices.controls.forEach((control, index) => {
+        control.get('early_bird_price')?.setValue(299);
+        control.get('mid_term_price')?.setValue(399);
+        control.get('late_price')?.setValue(499);
+        control.updateValueAndValidity(); // ✅ Force Angular to detect changes
+      });
+  
+      // console.log("🟢 Updated Form Values:", this.eventForm.value);
+    }, 0); 
+  }
 
-  get scientificSessions() {
+  get scientificSessions(): UntypedFormArray {
     return this.eventForm.get('scientificSessions') as UntypedFormArray;
   }
 
-  get conferenceSchedule() {
+  get conferenceSchedule(): UntypedFormArray {
     return this.eventForm.get('conferenceSchedule') as UntypedFormArray;
   }
 
-  get registrationPrices() {
-    return this.eventForm.get('registrationPrices') as UntypedFormArray;
+  get registrationPrices(): UntypedFormArray {
+    return this.eventForm.get('eventPricings') as UntypedFormArray;
   }
 
-  // Create Pricing Form Group for Each Participation Type
+  get scientificProgram(): UntypedFormArray {
+    return this.eventForm.get('scientificProgram') as UntypedFormArray;
+  }
+
+  // ✅ Create Pricing Form Group for Each Participation Type
   createPricingGroup(): UntypedFormGroup {
     return this.fb.group({
-      earlyBirdPrice: [0, [Validators.required, Validators.min(0)]],
-      midTermPrice: [0, [Validators.required, Validators.min(0)]],
-      latePrice: [0, [Validators.required, Validators.min(0)]]
+      participation_type: ['', Validators.required],
+      early_bird_price: [0, [Validators.required, Validators.min(0)]],
+      mid_term_price: [0, [Validators.required, Validators.min(0)]],
+      late_price: [0, [Validators.required, Validators.min(0)]]
     });
   }
 
+  // ✅ Add Scientific Session
   addScientificSession() {
     this.scientificSessions.push(
       this.fb.group({
@@ -86,6 +110,7 @@ export class CreatePageComponent implements OnInit {
     this.scientificSessions.removeAt(index);
   }
 
+  // ✅ Add Conference Day
   addDay() {
     this.conferenceSchedule.push(
       this.fb.group({
@@ -116,107 +141,146 @@ export class CreatePageComponent implements OnInit {
     events.removeAt(eventIndex);
   }
 
+  // ✅ Handle File Upload
   onFileSelect(event: any) {
-    this.uploadedImage = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.uploadedImage = file; // ✅ Store file for S3 upload
+    }
   }
 
-  onSubmit() {
-    if (this.eventForm.invalid) {
-        alert("⚠️ Please fill out all required fields.");
-        return;
-    }
+  // ✅ Create a Scientific Program Day Group
+  createScientificProgramDay(): UntypedFormGroup {
+    return this.fb.group({
+      day: ['', Validators.required],
+      date: ['', Validators.required],
+      presentations: this.fb.array([]),
+    });
+  }
 
-    this.isSubmitting = true;
-    
+  // ✅ Create a Presentation Group
+  createPresentation(): UntypedFormGroup {
+    return this.fb.group({
+      title: ['', Validators.required],
+      type: ['', Validators.required],
+      speaker: ['', Validators.required],
+      affiliation: ['', Validators.required],
+      description: ['', Validators.required],
+      speakerImage: ['', Validators.required],
+    });
+  }
+
+  // ✅ Add Scientific Program Day
+  addScientificProgramDay() {
+    this.scientificProgram.push(this.createScientificProgramDay());
+  }
+
+  removeScientificProgramDay(index: number) {
+    this.scientificProgram.removeAt(index);
+  }
+
+  addPresentation(dayIndex: number) {
+    const day = this.scientificProgram.at(dayIndex) as UntypedFormGroup;
+    const presentations = day.get('presentations') as UntypedFormArray;
+    presentations.push(this.createPresentation());
+  }
+
+  removePresentation(dayIndex: number, presentationIndex: number) {
+    const presentations = (this.scientificProgram.at(dayIndex).get('presentations') as UntypedFormArray);
+    presentations.removeAt(presentationIndex);
+  }
+
+  // ✅ Prepare Data for Hasura API
+  prepareEventData(url): any {
     const formValues = this.eventForm.value;
 
-    try {
-        const formatDate = (dateString: string) => dateString 
-            ? new Date(dateString).toISOString().split('T')[0] 
-            : null;
+    return {
+      event: {
+        event_name: formValues.eventName,
+        description: formValues.description,
+        venue: formValues.venue,
+        contact: formValues.contact,
+        deadline: formValues.deadline,
+        early_bird: formValues.earlyBird,
+        mid_term: formValues.midTerm,
+        late_term: formValues.lateTerm,
+        end_date: formValues.endDate,
+        event_image: url,
+        event_details_id: formValues.event_details_id,
 
-        // **🚀 Ensure all required fields are included**
-        const newEvent = {
-            event_name: formValues.eventName || "Untitled Event", // Required
-            deadline: formatDate(formValues.deadline) || formatDate(new Date().toISOString()), // Required
+        scientific_sessions: {
+          data: formValues.scientificSessions.map((session: any) => ({
+            title: session.title,
+            items: session.items // ✅ Ensure this remains a string
+          }))
+        },
 
-            // Optional Fields
-            venue: formValues.venue || null, 
-            description: formValues.description || null, 
-            contact: formValues.contact || null,
-            event_image: this.uploadedImage ? this.uploadedImage.name : null,
+        scientific_programs: {
+          data: formValues.scientificProgram.map((program: any) => ({
+            day: program.day,
+            date: program.date,
+            scientific_presentations: {
+              data: program.presentations.map((presentation: any) => ({
+                title: presentation.title,
+                type: presentation.type,
+                speaker: presentation.speaker,
+                affiliation: presentation.affiliation,
+                description: presentation.description,
+                speaker_image: presentation.speakerImage
+              }))
+            }
+          }))
+        },
+        event_pricings: {
+          data: this.registrationPrices.controls.map((pricing: UntypedFormGroup) => ({
+            participation_type: pricing.get('participation_type')?.value,
+            early_bird_price: Number(pricing.get('early_bird_price')?.value) || 0,  // ✅ Ensure it's a number
+            mid_term_price: Number(pricing.get('mid_term_price')?.value) || 0,
+            late_price: Number(pricing.get('late_price')?.value) || 0
+          }))
+        }
+      }
+    };
+  }
 
-            // **JSON fields must be sent as objects, NOT strings**
-            scientific_sessions: formValues.scientificSessions.length > 0 
-                ? formValues.scientificSessions.map((session: any) => ({
-                    title: session.title,
-                    items: session.items.split(',').map((item: string) => item.trim()).filter(Boolean)
-                }))
-                : [], // Empty array if no sessions
+  // ✅ Handle Form Submission
+  onSubmit(): void {
+    if (this.eventForm.invalid) {
+      alert("⚠️ Please fill out all required fields.");
+      return;
+    }
 
-            conference_schedule: formValues.conferenceSchedule.length > 0 
-                ? formValues.conferenceSchedule.map((day: any) => ({
-                    dayLabel: day.dayLabel,
-                    events: day.events.map((event: any) => ({
-                        time: event.time,
-                        title: event.title,
-                        description: event.description
-                    }))
-                }))
-                : [], // Empty array if no schedule
-
-            registration_prices: formValues.registrationPrices.length > 0 
-                ? formValues.registrationPrices.map((price: any, index: number) => ({
-                    type: this.participationTypes[index], // Match type from static array
-                    early: price.early ?? 0, // Ensure number is not null
-                    mid: price.mid ?? 0, // Ensure number is not null
-                    late: price.late ?? 0 // Ensure number is not null
-                }))
-                : [], // Empty array if no pricing
-
-            early_bird: formatDate(formValues.earlyBird) || null,
-            mid_term: formatDate(formValues.midTerm) || null,
-            late_term: formatDate(formValues.lateTerm) || null,
-            end_date: formatDate(formValues.endDate) || null,
-        };
-
-        console.log("📌 Event Data Before Mutation:", newEvent);
-
-        // **🚀 Execute GraphQL Mutation**
-        this.apollo.mutate({
-            mutation: ADD_NEW_EVENT,
-            variables: { objects: [newEvent] }
-        }).subscribe(
-            (result: any) => {
-                console.log("✅ Mutation Result:", result);
-                alert("🎉 Event created successfully!");
-                this.router.navigate(['/events']);
+    this.fileUploadService.uploadFile(this.uploadedImage)
+        .then((url) => {
+          this.isSubmitting = true;
+          const eventData = this.prepareEventData(url);
+      
+          this.eventService.createEvent(eventData).subscribe(
+            (response) => {
+              // console.log("✅ Event Created:", response);
+              alert("🎉 Event created successfully!");
+              this.resetForm();
             },
             (error) => {
-                console.error("🔥 Mutation Error:", error);
-                alert("⚠️ Failed to save event. Please try again.");
+              // console.error("🔥 API Error:", error);
+              alert("⚠️ Failed to create event.");
+              this.isSubmitting = false;
             }
-        );
-    } catch (error) {
-        console.error("🔥 Unexpected Error:", error);
-        alert("⚠️ Unexpected error occurred.");
-    } finally {
-        this.isSubmitting = false;
-    }
-}
+          );
+        });
+  }
 
-
-
-  // **✅ Reset Form Functionality**
+  // ✅ Reset Form
   resetForm() {
     this.eventForm.reset();
     this.scientificSessions.clear();
     this.conferenceSchedule.clear();
     this.registrationPrices.clear();
+    this.scientificProgram.clear();
 
-    // Reinitialize sections
-    this.addScientificSession(); 
-    this.addDay(); 
+    this.addScientificSession();
+    this.addDay();
+    this.addScientificProgramDay();
     this.participationTypes.forEach(() => this.registrationPrices.push(this.createPricingGroup()));
   }
 }

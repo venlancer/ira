@@ -52,7 +52,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.supabaseService.testConnection(); // Check Supabase connection
         this.graphqlService.getApolloClient().query({ query: GET_USERS })
         .then(result => {
             debugger;
