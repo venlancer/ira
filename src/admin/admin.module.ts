@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin.routing';
 import { CustomTblComponent } from './custom-tbl/custom-tbl.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreatePageComponent } from './create-page/create-page.component';
+import { CreateSubpageComponent } from './create-subpage/create-subpage.component';
 
 
 
@@ -12,7 +13,8 @@ import { CreatePageComponent } from './create-page/create-page.component';
   declarations: [
     AdminComponent,
     CustomTblComponent,
-    CreatePageComponent
+    CreatePageComponent,
+    CreateSubpageComponent
   ],
   imports: [
     CommonModule,

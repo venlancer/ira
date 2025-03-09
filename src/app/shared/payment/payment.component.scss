@@ -1,0 +1,62 @@
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f4;
+  }
+  
+  .payment-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #27133c;
+    margin-bottom: 10px;
+  }
+  
+  .payment-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .amount-section {
+    margin-bottom: 20px;
+  }
+  
+  .amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #27133c;
+  }
+  
+  .paypal-button-container {
+    margin-top: 10px;
+  }
+  
+  .cancel-section {
+    margin-top: 20px;
+  }
+  
+  .cancel-btn {
+    background: #ca2727;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .cancel-btn:hover {
+    background: #a91f1f;
+  }
+  

@@ -18,6 +18,7 @@ import { EventRegistrationComponent } from './shared/event-registration/event-re
 import { SponsorAndExhibitorsComponent } from './shared/sponsor-and-exhibitors/sponsor-and-exhibitors.component';
 import { ContactUsComponent } from './shared/contact-us/contact-us.component';
 import { ScheduleItemComponent } from './shared/schedule-item/schedule-item.component';
+import { PaymentComponent } from './shared/payment/payment.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'abstract-submission', component: AbstractSubmissionComponent },
       { path: 'event-registration', component: EventRegistrationComponent },
       { path: 'event-members', component: EventMembersComponent },
+      { path: 'payment', component: PaymentComponent },
       { path: 'scientific-program', component: ScheduleItemComponent }
     ]
   },

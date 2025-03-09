@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from 'src/app/services/registration.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration-form',
@@ -25,7 +26,7 @@ export class RegistrationFormComponent implements OnInit {
   designations = ['Mr.', 'Dr.', 'Mrs.', 'Miss', 'Prof.', 'Ms.'];
   countries = ['United States', 'Canada', 'India', 'Germany', 'Australia'];
   dietaryOptions = ['Veg', 'Non-Veg', 'Vegan'];
-
+  pageName:string = '';
   formData = {
     designation: '',
     fullName: '',
@@ -38,9 +39,11 @@ export class RegistrationFormComponent implements OnInit {
 
   isSubmitting = false;
 
-  constructor(private registrationService: RegistrationService) {}
+  constructor(private registrationService: RegistrationService, private router: Router,private route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.pageName = this.route.snapshot['_routerState'].url.split('/')[1];
+  }
 
   onSubmit(form: any): void {
     if (!form.valid || !this.selectedOption) {
@@ -68,8 +71,7 @@ export class RegistrationFormComponent implements OnInit {
     // Send data to Hasura API
     this.registrationService.submitRegistration(registrationData).subscribe(
       (response) => {
-        console.log('Response from Hasura:', response);
-        alert('Registration submitted successfully!');
+        this.router.navigate(['/'+this.pageName+'/payment'], { state: { data: registrationData } });
         this.onReset(form);
       },
       (error) => {

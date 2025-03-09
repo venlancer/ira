@@ -1,0 +1,22 @@
+<div class="payment-container">
+    <div class="payment-card">
+      <h2>Secure Checkout</h2>
+      <p class="payment-info">Complete your registration by making the payment.</p>
+  
+      <div class="amount-section">
+        <p>Amount to Pay:</p>
+        <h3 class="amount">${{ paymentAmount }}</h3>
+      </div>
+  
+      <div class="paypal-button-container">
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+      </div>
+  
+      <div class="cancel-section">
+        <button class="cancel-btn" (click)="cancelBtn()">
+          Cancel Payment
+        </button>
+      </div>
+    </div>
+  </div>
+  

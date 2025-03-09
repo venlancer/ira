@@ -47,6 +47,8 @@ import { CustomerService } from './services/customer.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { PaymentComponent } from './shared/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,8 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
     ContactUsComponent,
     ScheduleItemComponent,
     EventSectionComponent,
-    EventSectionDetailsComponent
+    EventSectionDetailsComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
     HomeModule,
     ReactiveFormsModule,
     AdminModule,
+    NgxPayPalModule,
     ApolloModule
   ],
   providers: [CustomerService,     {
