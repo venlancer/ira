@@ -90,7 +90,8 @@ export class IraTabsComponent implements OnInit {
       localStorage.setItem('id', id)
       this.sharedData.setEventData(e.events[0].id);
       const formattedName = this.formatString(pageName);
-      const url = this.router.serializeUrl(this.router.createUrlTree([`/${formattedName}`]));
+      const basePath = window.location.pathname.includes('/ira') ? '/ira' : '';
+const url = this.router.serializeUrl(this.router.createUrlTree([`${basePath}/${formattedName}`]));
       window.open(url, '_blank');
     })
   }
