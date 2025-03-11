@@ -20,7 +20,7 @@
         <div class="row justify-content-center">
           <div *ngFor="let event of tab.events" class="col-md-3 mb-4 card-item">
             <app-event-cards 
-              (click)="navigateToPage(event.title)"
+              (click)="navigateToPage(event.title, event)"
               [imageSrc]="event.image"
               [title]="event.title"
               [description]="event.short_description"

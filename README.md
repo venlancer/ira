@@ -1,4 +1,4 @@
-rmdir /s /q dist
+Remove-Item -Path dist -Recurse -Force
 ng build --configuration=production --base-href="https://venlancer.github.io/ira/"
 npx angular-cli-ghpages --dir=dist/ira
 

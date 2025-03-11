@@ -4,6 +4,7 @@ import { GraphqlService } from 'src/app/services/graphql.service';
 import { SupabaseService } from 'src/app/supabase.service';
 import { GET_EVENTS } from '../../graphql/queries'; // Import query
 import { EventService } from 'src/app/services/event.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-ira-tabs',
@@ -30,7 +31,7 @@ export class IraTabsComponent implements OnInit {
   filteredEvents = [];
   queryData = [];
 
-  constructor(private router: Router, private eventService: EventService, private graphqlService: GraphqlService) { }
+  constructor(private router: Router, private eventService: EventService, private sharedData: SharedDataService) { }
 
   ngOnInit(): void {
     this.eventService.getEvents().subscribe(
@@ -83,10 +84,15 @@ export class IraTabsComponent implements OnInit {
     }
   }
 
-  navigateToPage(pageName: string): void {
-    const formattedName = this.formatString(pageName);
-    const url = this.router.serializeUrl(this.router.createUrlTree([`/${formattedName}`]));
-    window.open(url, '_blank');
+  navigateToPage(pageName: string, e): void {
+    this.eventService.getEventsById(e.id).subscribe(e=> {
+      const id = e.events[0].id;
+      localStorage.setItem('id', id)
+      this.sharedData.setEventData(e.events[0].id);
+      const formattedName = this.formatString(pageName);
+      const url = this.router.serializeUrl(this.router.createUrlTree([`/${formattedName}`]));
+      window.open(url, '_blank');
+    })
   }
 
   formatString(input) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/iraurls';
 
 @Injectable({
   providedIn: 'root'

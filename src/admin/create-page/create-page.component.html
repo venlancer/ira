@@ -3,11 +3,64 @@
     <div class="card-header bg-primary text-white">
       <h4 class="card-title mb-0 custom-clr1">Create Event</h4>
     </div>
-    <div class="card-body">
-      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="step === 1">
+      <h5 class="custom-clr">Step 1: Enter Event Details</h5>
+      <form [formGroup]="eventDetailsForm" style="padding: 0 5%;">
+        <div class="row">
+          <div class="col-md-6 mt-3">
+            <label class="form-label">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="title" required />
+          </div>
+    
+          <div class="col-md-6 mt-3">
+            <label class="form-label">Event Type <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="event_type" required />
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-6 mt-3">
+            <label class="form-label">Start Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" formControlName="start_date" required />
+          </div>
+    
+          <div class="col-md-6 mt-3">
+            <label class="form-label">End Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" formControlName="end_date" required />
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-6 mt-3">
+            <label class="form-label">Organized By <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="organised_by" required />
+          </div>
+    
+          <div class="col-md-6 mt-3">
+            <label class="form-label">Event Image</label>
+            <input type="file" class="form-control" (change)="onFileSelect($event)" />
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-12">
+            <label class="form-label">Short Description <span class="text-danger">*</span></label>
+            <textarea class="form-control" formControlName="short_desc" rows="3" required></textarea>
+          </div>
+        </div>
+    
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-success" (click)="submitEventDetails()">Next</button>
+        </div>
+      </form>
+    </div>
+    
+    
+    <div class="card-body" *ngIf="step === 2">
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" style="padding: 0 5%;">
         <div class="row g-3">
           <!-- Event Name -->
-          <div class="col-md-6">
+          <div class="col-md-6 mt-3">
             <label for="eventName" class="form-label custom-clr">Event Name <span class="text-danger">*</span></label>
             <input id="eventName" type="text" class="form-control" formControlName="eventName" required />
             <div *ngIf="eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched" class="text-danger">
@@ -16,7 +69,7 @@
           </div>
 
           <!-- Venue -->
-          <div class="col-md-6">
+          <div class="col-md-6 mt-3">
             <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
             <input id="venue" type="text" class="form-control" formControlName="venue" required />
             <div *ngIf="eventForm.get('venue')?.invalid && eventForm.get('venue')?.touched" class="text-danger">
@@ -35,7 +88,7 @@
           </div>
 
           <!-- Contact -->
-          <div class="col-md-6">
+          <div class="col-md-6 mt-3">
             <label for="contact" class="form-label">Contact <span class="text-danger">*</span></label>
             <input id="contact" type="text" class="form-control" formControlName="contact" required />
             <div *ngIf="eventForm.get('contact')?.invalid && eventForm.get('contact')?.touched" class="text-danger">
@@ -44,7 +97,7 @@
           </div>
 
           <!-- Deadline Date -->
-          <div class="col-md-6">
+          <div class="col-md-6 mt-3">
             <label for="deadline" class="form-label">Deadline Date <span class="text-danger">*</span></label>
             <input id="deadline" type="date" class="form-control" formControlName="deadline" required />
             <div *ngIf="eventForm.get('deadline')?.invalid && eventForm.get('deadline')?.touched" class="text-danger">
@@ -53,7 +106,7 @@
           </div>
 
           <!-- Event Image -->
-          <div class="col-md-6">
+          <div class="col-md-6 mt-3">
             <label for="eventImage" class="form-label">Event Image</label>
             <input id="eventImage" type="file" class="form-control" (change)="onFileSelect($event)" />
           </div>
@@ -102,22 +155,22 @@
           <h5 class="custom-clr">Registration Dates <span class="text-danger">*</span></h5>
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
               <label for="earlyBird" class="form-label">Early Bird Registration Date</label>
               <input type="date" id="earlyBird" class="form-control" formControlName="earlyBird" required />
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
               <label for="midTerm" class="form-label">Mid-Term Registration Start Date</label>
               <input type="date" id="midTerm" class="form-control" formControlName="midTerm" required />
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
               <label for="lateTerm" class="form-label">Late Registration Start Date</label>
               <input type="date" id="lateTerm" class="form-control" formControlName="lateTerm" required />
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
               <label for="endDate" class="form-label">End of Registrations</label>
               <input type="date" id="endDate" class="form-control" formControlName="endDate" required />
             </div>
@@ -174,11 +227,11 @@
           <div formArrayName="scientificProgram">
             <div *ngFor="let day of scientificProgram.controls; let i = index" [formGroupName]="i" class="mb-3">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mt-3">
                   <label for="day" class="form-label">Day</label>
                   <input type="number" id="day" class="form-control" formControlName="day" required />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mt-3">
                   <label for="date" class="form-label">Date</label>
                   <input type="date" id="date" class="form-control" formControlName="date" required />
                 </div>
@@ -223,11 +276,15 @@
 
 
         <!-- Buttons -->
-        <div class="d-flex justify-content-between mt-4">
+        <!-- <div class="d-flex justify-content-between mt-4">
           <button type="button" class="btn btn-secondary" style="background-color: red; color: #ffffff; width: 20%;"
             (click)="resetForm()">Reset</button>
           <button type="submit" class="btn btn-success"
             style="background-color: #32184c;color: #ffffff; width: 20%;">Submit</button>
+        </div> -->
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-secondary" (click)="step = 1">Back</button>
+          <button type="submit" class="btn btn-success">Submit</button>
         </div>
       </form>
     </div>

@@ -14,6 +14,9 @@ export class CreatePageComponent implements OnInit {
   eventForm: UntypedFormGroup;
   uploadedImage: File | null = null;
   isSubmitting = false;
+  eventDetailsForm: UntypedFormGroup;
+  step = 1;  // Track current step
+  eventDetailsId: number | null = null;
 
   // Static Participation Types
   participationTypes: string[] = [
@@ -27,6 +30,17 @@ export class CreatePageComponent implements OnInit {
   ];
 
   constructor(private fb: UntypedFormBuilder, private eventService: EventService, private fileUploadService: FileUploadService) {
+
+    this.eventDetailsForm = this.fb.group({
+      title: ['', Validators.required],
+      event_type: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required],
+      organised_by: ['', Validators.required],
+      short_desc: ['', Validators.required],
+      image: ['']
+    });
+
     this.eventForm = this.fb.group({
       eventName: ['', Validators.required],
       description: ['', Validators.required],
@@ -65,9 +79,9 @@ export class CreatePageComponent implements OnInit {
         control.get('late_price')?.setValue(499);
         control.updateValueAndValidity(); // ✅ Force Angular to detect changes
       });
-  
+
       // console.log("🟢 Updated Form Values:", this.eventForm.value);
-    }, 0); 
+    }, 0);
   }
 
   get scientificSessions(): UntypedFormArray {
@@ -148,6 +162,27 @@ export class CreatePageComponent implements OnInit {
       this.uploadedImage = file; // ✅ Store file for S3 upload
     }
   }
+
+  submitEventDetails() {
+    if (this.eventDetailsForm.invalid) {
+      alert("⚠️ Fill all required fields in Event Details.");
+      return;
+    }
+
+    this.fileUploadService.uploadFile(this.uploadedImage)
+      .then((url) => {
+        const formData = { ...this.eventDetailsForm.value, image: url };
+
+        this.eventService.createEventDetails(formData).subscribe(response => {
+          this.eventDetailsId = response.id;
+          this.eventForm.patchValue({ event_details_id: this.eventDetailsId }); // ✅ Auto-fill event details ID
+          this.step = 2;  // ✅ Move to Step 2
+        }, error => {
+          alert("❌ Failed to submit event details.");
+        });
+      });
+  }
+
 
   // ✅ Create a Scientific Program Day Group
   createScientificProgramDay(): UntypedFormGroup {
@@ -245,33 +280,41 @@ export class CreatePageComponent implements OnInit {
 
   // ✅ Handle Form Submission
   onSubmit(): void {
+    if (this.step === 1) {
+      this.submitEventDetails();
+      return;
+    }
+
     if (this.eventForm.invalid) {
       alert("⚠️ Please fill out all required fields.");
       return;
     }
 
     this.fileUploadService.uploadFile(this.uploadedImage)
-        .then((url) => {
-          this.isSubmitting = true;
-          const eventData = this.prepareEventData(url);
-      
-          this.eventService.createEvent(eventData).subscribe(
-            (response) => {
-              // console.log("✅ Event Created:", response);
-              alert("🎉 Event created successfully!");
-              this.resetForm();
-            },
-            (error) => {
-              // console.error("🔥 API Error:", error);
-              alert("⚠️ Failed to create event.");
-              this.isSubmitting = false;
-            }
-          );
-        });
+      .then((url) => {
+        this.isSubmitting = true;
+        const eventData = this.prepareEventData(url);
+
+        this.eventService.createEvent(eventData).subscribe(
+          (response) => {
+            // console.log("✅ Event Created:", response);
+            alert("🎉 Event created successfully!");
+            this.resetForm();
+          },
+          (error) => {
+            // console.error("🔥 API Error:", error);
+            alert("⚠️ Failed to create event.");
+            this.isSubmitting = false;
+          }
+        );
+      });
   }
 
   // ✅ Reset Form
   resetForm() {
+    this.eventDetailsForm.reset();
+    this.eventForm.reset();
+    this.step = 1;  // Reset to Step 1
     this.eventForm.reset();
     this.scientificSessions.clear();
     this.conferenceSchedule.clear();
