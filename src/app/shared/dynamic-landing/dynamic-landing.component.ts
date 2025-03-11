@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from 'src/app/services/event.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-dynamic-landing',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DynamicLandingComponent implements OnInit {
 
-  constructor() { }
+  public event:any;
+
+  constructor(private eventServices:EventService, private sharedData: SharedDataService) { }
 
   ngOnInit(): void {
+    this.getDetails();
+  }
+
+  getDetails() {
+    this.eventServices.getCompleteDetails(localStorage.getItem('id')).subscribe(e=> {
+      console.log(e)
+    })
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
-import { AWS_CONFIG } from './aws.config';
+import { AWS_CONFIG } from './ira.config';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 

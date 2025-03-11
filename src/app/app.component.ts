@@ -5,6 +5,9 @@ import { filter, Observable, Subscription } from 'rxjs';
 import { GraphqlService } from './services/graphql.service';
 import { GET_USERS } from './graphql/queries'; // Import query
 import { SupabaseService } from './supabase.service';
+import { EventService } from './services/event.service';
+import { environment } from 'src/environments/iraurls';
+import { AWS_CONFIG } from './services/ira.config';
 
 @Component({
     selector: 'app-root',
@@ -24,7 +27,7 @@ export class AppComponent implements OnInit {
         @Inject(DOCUMENT) private document: any,
         private element: ElementRef,
         private graphqlService: GraphqlService,
-        private supabaseService: SupabaseService,
+        private eventService: EventService,
     ) { }
 
     @HostListener('window:scroll', ['$event'])
@@ -52,14 +55,12 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.graphqlService.getApolloClient().query({ query: GET_USERS })
-        .then(result => {
-            debugger;
-            this.users = result.data.ira_userCollection.edges.map(edge => edge.node);
-        })
-        .catch(error => {
-          console.error('GraphQL Error:', error);
-        });
+        // this.eventService.getcred().subscribe(e=> {
+        //     environment.accessKeyId = e['aws'][0].accessKeyId;
+        //     environment.secretAccessKey = e['aws'][0].secretAccessKey;
+        //     AWS_CONFIG.accessKeyId = e['aws'][0].accessKeyId;
+        //     AWS_CONFIG.secretAccessKey = e['aws'][0].secretAccessKey;
+        // })
 
 
         this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {

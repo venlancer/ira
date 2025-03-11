@@ -16,8 +16,13 @@
   
   .card {
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible; // 🔹 Allows content to expand dynamically
+    max-width: 1200px;
+    margin: auto;
+    min-height: 600px; // 🔹 Ensures minimum height but expands as needed
+    margin-bottom: 2%;
   }
+  
   
   .card-header {
     font-size: 1.5rem;
