@@ -12,9 +12,9 @@ export class EventService {
   private API_URL = 'https://choice-pangolin-52.hasura.app/api/rest/insertcompleteevent';
   private API_URL2 = '	https://choice-pangolin-52.hasura.app/api/rest/event_details';
   private aas = 'https://choice-pangolin-52.hasura.app/api/rest/aws';
-  private detailByID = 'https://choice-pangolin-52.hasura.app/api/rest/events/by-event-details/'
-  private HASURA_ADMIN_SECRET = environment.hasurakey; // Replace with actual key
-  private getCompleteDetail: 'https://choice-pangolin-52.hasura.app/api/rest/events/';
+  private detailByID = 'https://choice-pangolin-52.hasura.app/api/rest/events/by-event-details/';
+  private HASURA_ADMIN_SECRET = environment.hasurakey;
+  private pageDetails= 'https://choice-pangolin-52.hasura.app/api/rest/events/';
 
   constructor(private http: HttpClient) {}
 
@@ -40,7 +40,7 @@ export class EventService {
       'x-hasura-admin-secret': this.HASURA_ADMIN_SECRET
     });
 
-    return this.http.get<any>(this.getCompleteDetail+ID, { headers });
+    return this.http.get<any>(this.pageDetails+ID, { headers });
   }
 
 

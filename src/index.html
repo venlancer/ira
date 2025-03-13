@@ -2,27 +2,35 @@
 <html lang="en">
 
 <head>
-  <base href="/ira/">
+  <!-- Set base URL correctly -->
+  <base href="https://www.iraconferences.com/ira/">
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="IRA Global Events">
   <meta name="author" content="Syntax N">
   <title>IRA Global Events</title>
+
   <!-- Favicon -->
-  <link href="./assets/img/icons/IRA_Logo_Favicon.svg" rel="icon" type="image/png">
+  <link href="https://www.iraconferences.com/assets/img/icons/IRA_Logo_Favicon.svg" rel="icon" type="image/png">
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
   <!-- Icons -->
-  <link href="./assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-  <link href="./assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <!-- Add this in the <head> section of your index.html -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+  <link href="https://www.iraconferences.com/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+  <link href="https://www.iraconferences.com/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Font Awesome (Latest Version) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Fix CORS issue for Supabase -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     window.supabase = createClient(
       "https://nxtkzkayyvkhmfvtucvb.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54dGt6a2F5eXZraG1mdnR1Y3ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4NTkxMjYsImV4cCI6MjA1NDQzNTEyNn0.kSQNmFBB2lKzoqEHadAA4DGABOaMmzw0CZHQa0Cqmz8"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54dGt6a2F5eXZraG1tdnR1Y3ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4NTkxMjYsImV4cCI6MjA1NDQzNTEyNn0.kSQNmFBB2lKzoqEHadAA4DGABOaMmzw0CZHQa0Cqmz8"
     );
   </script>
 

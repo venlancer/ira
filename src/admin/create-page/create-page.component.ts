@@ -174,7 +174,7 @@ export class CreatePageComponent implements OnInit {
         const formData = { ...this.eventDetailsForm.value, image: url };
 
         this.eventService.createEventDetails(formData).subscribe(response => {
-          this.eventDetailsId = response.id;
+          this.eventDetailsId = response.insert_event_details_one.id;
           this.eventForm.patchValue({ event_details_id: this.eventDetailsId }); // ✅ Auto-fill event details ID
           this.step = 2;  // ✅ Move to Step 2
         }, error => {
@@ -228,7 +228,7 @@ export class CreatePageComponent implements OnInit {
   // ✅ Prepare Data for Hasura API
   prepareEventData(url): any {
     const formValues = this.eventForm.value;
-
+  
     return {
       event: {
         event_name: formValues.eventName,
@@ -242,14 +242,16 @@ export class CreatePageComponent implements OnInit {
         end_date: formValues.endDate,
         event_image: url,
         event_details_id: formValues.event_details_id,
-
+  
+        // ✅ Scientific Sessions (Fixed)
         scientific_sessions: {
           data: formValues.scientificSessions.map((session: any) => ({
             title: session.title,
-            items: session.items // ✅ Ensure this remains a string
+            items: session.items
           }))
         },
-
+  
+        // ✅ Scientific Programs (Fixed)
         scientific_programs: {
           data: formValues.scientificProgram.map((program: any) => ({
             day: program.day,
@@ -266,17 +268,34 @@ export class CreatePageComponent implements OnInit {
             }
           }))
         },
+  
+        // ✅ Event Pricing (Fixed)
         event_pricings: {
           data: this.registrationPrices.controls.map((pricing: UntypedFormGroup) => ({
             participation_type: pricing.get('participation_type')?.value,
-            early_bird_price: Number(pricing.get('early_bird_price')?.value) || 0,  // ✅ Ensure it's a number
+            early_bird_price: Number(pricing.get('early_bird_price')?.value) || 0,
             mid_term_price: Number(pricing.get('mid_term_price')?.value) || 0,
             late_price: Number(pricing.get('late_price')?.value) || 0
+          }))
+        },
+  
+        // ✅ Conference Schedules (Fixed)
+        conference_schedules: {
+          data: formValues.conferenceSchedule.map((day: any) => ({
+            day_label: day.dayLabel,
+            conference_events: {
+              data: day.events.map((event: any) => ({
+                time: event.time,
+                title: event.title,
+                description: event.description
+              }))
+            }
           }))
         }
       }
     };
   }
+  
 
   // ✅ Handle Form Submission
   onSubmit(): void {
@@ -285,10 +304,10 @@ export class CreatePageComponent implements OnInit {
       return;
     }
 
-    if (this.eventForm.invalid) {
-      alert("⚠️ Please fill out all required fields.");
-      return;
-    }
+    // if (this.eventForm.invalid) {
+    //   alert("⚠️ Please fill out all required fields.");
+    //   return;
+    // }
 
     this.fileUploadService.uploadFile(this.uploadedImage)
       .then((url) => {
