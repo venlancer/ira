@@ -49,6 +49,8 @@ import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { PaymentComponent } from './shared/payment/payment.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -91,7 +93,7 @@ import { PaymentComponent } from './shared/payment/payment.component';
   imports: [
     BrowserModule,
     NgbModule,
-    HttpClientModule, 
+    HttpClientModule,
     FormsModule,
     RouterModule,
     AppRoutingModule,
@@ -101,7 +103,7 @@ import { PaymentComponent } from './shared/payment/payment.component';
     NgxPayPalModule,
     ApolloModule
   ],
-  providers: [CustomerService,     {
+  providers: [CustomerService, {
     provide: APOLLO_OPTIONS,
     useFactory: () => {
       return {
@@ -115,7 +117,8 @@ import { PaymentComponent } from './shared/payment/payment.component';
         }),
       };
     },
-  },],
+  },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

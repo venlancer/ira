@@ -8,25 +8,25 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./registration-form.component.scss']
 })
 export class RegistrationFormComponent implements OnInit {
-
   registrationOptions = [
-    { type: 'Speaker (In-Person)', earlyBird: '$699', midTerm: '$799', late: '$899', price: 699 },
-    { type: 'Delegate (In-Person)', earlyBird: '$799', midTerm: '$899', late: '$999', price: 799 },
-    { type: 'Student/Young Researcher/Poster Presentation (In-Person)', earlyBird: '$499', midTerm: '$599', late: '$699', price: 499 },
-    { type: 'Virtual Presentation (Online through ZOOM)', earlyBird: '$299', midTerm: '$399', late: '$499', price: 299 },
-    { type: 'Exhibition Sponsor', earlyBird: '$1999', midTerm: '$2999', late: '$3999', price: 1999 },
-    { type: 'Package A (Registration + two nights accommodation)', earlyBird: '$1199', midTerm: '$1299', late: '$1399', price: 1199 },
-    { type: 'Package B (Registration + three nights accommodation)', earlyBird: '$1499', midTerm: '$1599', late: '$1699', price: 1499 }
+    { type: 'Speaker (In-Person)', earlyBird: 699, midTerm: 799, late: 899 },
+    { type: 'Delegate (In-Person)', earlyBird: 799, midTerm: 899, late: 999 },
+    { type: 'Student/Young Researcher/Poster Presentation (In-Person)', earlyBird: 499, midTerm: 599, late: 699 },
+    { type: 'Virtual Presentation (Online through ZOOM)', earlyBird: 299, midTerm: 399, late: 499 },
+    { type: 'Exhibition Sponsor', earlyBird: 1999, midTerm: 2999, late: 3999 },
+    { type: 'Package A (Registration + two nights accommodation)', earlyBird: 1199, midTerm: 1299, late: 1399 },
+    { type: 'Package B (Registration + three nights accommodation)', earlyBird: 1499, midTerm: 1599, late: 1699 }
   ];
 
-  // Selected registration option
   selectedOption: any = null;
-  refundPolicy = false; 
+  customPrice: number | null = null;
+  otherOption: any = { type: 'Other', price: 0 };
+  refundPolicy = false;
 
   designations = ['Mr.', 'Dr.', 'Mrs.', 'Miss', 'Prof.', 'Ms.'];
   countries = ['United States', 'Canada', 'India', 'Germany', 'Australia'];
   dietaryOptions = ['Veg', 'Non-Veg', 'Vegan'];
-  pageName:string = '';
+  pageName: string = '';
   formData = {
     designation: '',
     fullName: '',
@@ -39,10 +39,35 @@ export class RegistrationFormComponent implements OnInit {
 
   isSubmitting = false;
 
-  constructor(private registrationService: RegistrationService, private router: Router,private route: ActivatedRoute) {}
+  constructor(private registrationService: RegistrationService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.pageName = this.route.snapshot['_routerState'].url.split('/')[1];
+  }
+
+  // Function to update "Other" option price dynamically
+  updateOtherPrice(): void {
+    if (this.customPrice !== null && this.customPrice >= 0) {
+      this.otherOption.price = this.customPrice;
+    } else {
+      this.otherOption.price = 0;
+    }
+  }
+
+  // Get correct numeric price based on current registration period
+  getCurrentPrice(option: any): number {
+    const today = new Date();
+    const earlyBirdEnd = new Date('2025-01-15');
+    const midTermStart = new Date('2025-01-16');
+    const midTermEnd = new Date('2025-02-15');
+    const lateStart = new Date('2025-02-16');
+    const lateEnd = new Date('2025-04-14');
+
+    if (today <= earlyBirdEnd) return option.earlyBird;
+    if (today >= midTermStart && today <= midTermEnd) return option.midTerm;
+    if (today >= lateStart && today <= lateEnd) return option.late;
+    
+    return 0; // Registration closed or invalid selection
   }
 
   onSubmit(form: any): void {
@@ -51,9 +76,22 @@ export class RegistrationFormComponent implements OnInit {
       return;
     }
 
+    let finalPrice: number = 0;
+
+    if (this.selectedOption.type === 'Other') {
+      finalPrice = this.otherOption.price;
+    } else {
+      finalPrice = this.getCurrentPrice(this.selectedOption);
+    }
+
+    if (isNaN(finalPrice) || finalPrice <= 0) {
+      alert('Please enter a valid registration price.');
+      return;
+    }
+
     this.isSubmitting = true;
 
-    // Prepare the correct payload structure for Hasura API
+    // Prepare registration data for API
     const registrationData = {
       designation: this.formData.designation,
       full_name: this.formData.fullName,
@@ -62,8 +100,8 @@ export class RegistrationFormComponent implements OnInit {
       email: this.formData.email,
       phone: this.formData.phone,
       dietary_requirements: this.formData.dietaryRequirements || null,
-      registration_type: this.selectedOption.type, // Selected participation type
-      registration_price: this.selectedOption.price // Price of selected option
+      registration_type: this.selectedOption.type,
+      registration_price: finalPrice
     };
 
     console.log("Sending registration data to Hasura:", registrationData);
@@ -71,7 +109,7 @@ export class RegistrationFormComponent implements OnInit {
     // Send data to Hasura API
     this.registrationService.submitRegistration(registrationData).subscribe(
       (response) => {
-        this.router.navigate(['/'+this.pageName+'/payment'], { state: { data: registrationData } });
+        this.router.navigate(['/' + this.pageName + '/payment'], { state: { data: registrationData } });
         this.onReset(form);
       },
       (error) => {
@@ -92,9 +130,11 @@ export class RegistrationFormComponent implements OnInit {
       dietaryRequirements: '',
     };
     this.selectedOption = null;
+    this.customPrice = null;
+    this.otherOption.price = 0;
     this.refundPolicy = false;
     this.isSubmitting = false;
-  
+
     if (form) {
       form.resetForm(); // ✅ Reset Angular's form state
     }

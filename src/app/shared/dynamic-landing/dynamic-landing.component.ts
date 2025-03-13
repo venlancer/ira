@@ -10,6 +10,7 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 export class DynamicLandingComponent implements OnInit {
 
   public event:any;
+  public pageDetail:any;
 
   constructor(private eventServices:EventService, private sharedData: SharedDataService) { }
 
@@ -19,7 +20,7 @@ export class DynamicLandingComponent implements OnInit {
 
   getDetails() {
     this.eventServices.getCompleteDetails(localStorage.getItem('id')).subscribe(e=> {
-      console.log(e)
+      this.pageDetail = e['events_by_pk'];
     })
   }
 
