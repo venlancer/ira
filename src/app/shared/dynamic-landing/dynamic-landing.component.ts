@@ -21,6 +21,7 @@ export class DynamicLandingComponent implements OnInit {
   getDetails() {
     this.eventServices.getCompleteDetails(localStorage.getItem('id')).subscribe(e=> {
       this.pageDetail = e['events_by_pk'];
+      console.log(this.pageDetail);
     })
   }
 

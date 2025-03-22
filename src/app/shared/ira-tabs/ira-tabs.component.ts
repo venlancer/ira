@@ -85,13 +85,11 @@ export class IraTabsComponent implements OnInit {
   }
 
   navigateToPage(pageName: string, e): void {
-    this.eventService.getEventsById(e.id).subscribe(e=> {
-      const id = e.events[0].id;
-      localStorage.setItem('id', id)
+    this.eventService.getEventsById(e.id).subscribe(e => {
+      localStorage.setItem('id', e.events[0].id)
       this.sharedData.setEventData(e.events[0].id);
       const formattedName = this.formatString(pageName);
-      const basePath = window.location.pathname.includes('/ira') ? '/ira' : '';
-const url = this.router.serializeUrl(this.router.createUrlTree([`${basePath}/${formattedName}`]));
+      const url = this.router.serializeUrl(this.router.createUrlTree([`/${formattedName}`]));
       window.open(url, '_blank');
     })
   }
