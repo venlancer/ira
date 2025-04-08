@@ -17,15 +17,15 @@
                     <div class="col-lg-8 col-12 mx-auto">
                         <h1 class="display-3 event-title txtwhite">{{pageDetail.event_name}}</h1>
                         <p class="lead event-description txtwhite">
-                            A hands-on workshop to explore modern design concepts.
+                            <strong>Accelerating Discovery:</strong> The Role of Conferences in Scientific Breakthroughs
                         </p>
 
                         <div class="event-details">
-                            <h2 class="event-date txtwhite" style="margin: 0 auto; display: block;">📅 06-02-2025 to 08-02-2025</h2>
+                            <h2 class="event-date txtwhite" style="margin: 0 auto; display: block;">📅 {{startDate}} to {{endDate}}</h2>
                             <p class="contact-details txtwhite">
                                 📍 {{pageDetail.venue}} &nbsp;|&nbsp;
-                                📞 +1 (650) 253-0000 &nbsp;|&nbsp;
-                                ✉️ <a href="mailto:ira@gmail.com txtwhite" style="color: #ffffff;">ira@gmail.com</a>
+                                📞 +1 (650) 253-9421 &nbsp;|&nbsp;
+                                ✉️ <a href="mailto:support@iraconferences.com txtwhite" style="color: #ffffff;">support@iraconferences.com</a>
                             </p>
                         </div>
                     </div>
@@ -34,8 +34,8 @@
         </div>
     </section>
 </div>
-<app-event-section></app-event-section>
-<app-event-about></app-event-about>
-<app-half-moon></app-half-moon>
-<app-scientific-tabs></app-scientific-tabs>
-<app-schedule></app-schedule>
+<app-event-section [eventImg]="pageDetail?.event_image"></app-event-section>
+<app-event-about [description]="pageDetail?.description"></app-event-about>
+<app-half-moon [deadLine]="pageDetail?.deadline"></app-half-moon>
+<app-scientific-tabs [scientificsessions]="pageDetail?.scientific_sessions"></app-scientific-tabs>
+<app-schedule [conferenceschedules]="pageDetail?.conference_schedules"></app-schedule>

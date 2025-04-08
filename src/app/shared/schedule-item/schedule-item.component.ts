@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-schedule-item',
@@ -9,8 +10,12 @@ export class ScheduleItemComponent implements OnInit {
 
   scheduleData: any[] = [];
   selectedDay: number = 0;
+  itemsData:any;
+
+  constructor(private eventServices:EventService) { }
 
   ngOnInit(): void {
+    this.getDetails();
     this.scheduleData = [
       {
         day: 1,
@@ -67,6 +72,13 @@ export class ScheduleItemComponent implements OnInit {
 
   selectDay(index: number): void {
     this.selectedDay = index;
+  }
+
+  getDetails() {
+    this.eventServices.getCompleteDetails(localStorage.getItem('id')).subscribe(e=> {
+      this.itemsData = e['events_by_pk'].scientific_programs;
+      this.scheduleData = this.itemsData;
+    })
   }
 
 }

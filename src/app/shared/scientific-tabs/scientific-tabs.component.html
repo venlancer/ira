@@ -1,7 +1,7 @@
 <div class="container my-4">
     <h1 class="txt-heading">SCIENTIFIC SESSIONS</h1>
     <!-- Manual Tabs (Bootstrap nav) -->
-    <ul class="nav nav-pills nav-fill big-tabs">
+    <ul class="nav nav-pills flex-wrap big-tabs">
         <li class="nav-item" *ngFor="let category of categories; let i = index">
             <a class="nav-link" [class.active]="activeTab === i" (click)="activeTab = i">
                 {{ category.title }}

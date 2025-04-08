@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-registration-form',
@@ -18,13 +19,35 @@ export class RegistrationFormComponent implements OnInit {
     { type: 'Package B (Registration + three nights accommodation)', earlyBird: 1499, midTerm: 1599, late: 1699 }
   ];
 
+  earlyBirdEndDate!: Date;
+  midTermStartDate!: Date;
+  midTermEndDate!: Date;
+  lateTermStartDate!: Date;
+  registrationDeadline!: Date;
   selectedOption: any = null;
   customPrice: number | null = null;
   otherOption: any = { type: 'Other', price: 0 };
   refundPolicy = false;
-
+  isRegistrationClosed: boolean = false;
   designations = ['Mr.', 'Dr.', 'Mrs.', 'Miss', 'Prof.', 'Ms.'];
-  countries = ['United States', 'Canada', 'India', 'Germany', 'Australia'];
+  countries: string[] = ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla',
+    'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia',
+    'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus',
+    'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina',
+    'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam',
+    'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde',
+    'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island',
+    'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'Congo, the Democratic Republic of the',
+    'Cook Islands', 'Costa Rica', 'Côte d\'Ivoire', 'Croatia (Hrvatska)', 'Cuba', 'Cyprus',
+    'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor',
+    'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia',
+    'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 'France',
+    'France, Metropolitan', 'French Guiana', 'French Polynesia', 'French Southern Territories',
+    'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland',
+    'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti',
+    'Heard and Mc Donald Islands', 'Holy See (Vatican City State)', 'Honduras', 'Hong Kong',
+    'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran (Islamic Republic of)', 'Iraq', 'Ireland',
+    'Israel', 'Italy', 'Jamaica', 'Japan', 'United States', 'United Kingdom'];
   dietaryOptions = ['Veg', 'Non-Veg', 'Vegan'];
   pageName: string = '';
   formData = {
@@ -36,13 +59,35 @@ export class RegistrationFormComponent implements OnInit {
     phone: '',
     dietaryRequirements: '',
   };
-
   isSubmitting = false;
+  pageDetailItems: any;
 
-  constructor(private registrationService: RegistrationService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private registrationService: RegistrationService, private router: Router, private route: ActivatedRoute, private eventServices: EventService) { }
 
   ngOnInit(): void {
     this.pageName = this.route.snapshot['_routerState'].url.split('/')[1];
+    this.getDetails();
+  }
+
+  getDetails() {
+    this.eventServices.getCompleteDetails(localStorage.getItem('id')).subscribe(e => {
+      this.pageDetailItems = e['events_by_pk'];
+      this.earlyBirdEndDate = new Date(this.pageDetailItems.early_bird);     // "2025-06-25"
+      this.midTermStartDate = new Date(this.pageDetailItems.mid_term);       // "2025-07-01"
+      this.lateTermStartDate = new Date(this.pageDetailItems.late_term);     // "2025-07-15"
+      this.registrationDeadline = new Date(this.pageDetailItems.deadline);   // "2025-08-25
+      this.isRegistrationClosed = new Date() > new Date(this.pageDetailItems.deadline);
+
+    })
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const inputs = document.querySelectorAll('input, select');
+      inputs.forEach((input: any) => {
+        input.dispatchEvent(new Event('input'));
+      });
+    }, 500); // Wait a little to allow autofill to complete
   }
 
   // Function to update "Other" option price dynamically
@@ -57,41 +102,63 @@ export class RegistrationFormComponent implements OnInit {
   // Get correct numeric price based on current registration period
   getCurrentPrice(option: any): number {
     const today = new Date();
-    const earlyBirdEnd = new Date('2025-01-15');
-    const midTermStart = new Date('2025-01-16');
-    const midTermEnd = new Date('2025-02-15');
-    const lateStart = new Date('2025-02-16');
-    const lateEnd = new Date('2025-04-14');
 
-    if (today <= earlyBirdEnd) return option.earlyBird;
-    if (today >= midTermStart && today <= midTermEnd) return option.midTerm;
-    if (today >= lateStart && today <= lateEnd) return option.late;
-    
-    return 0; // Registration closed or invalid selection
+    if (this.earlyBirdEndDate && today <= this.earlyBirdEndDate) {
+      return option.earlyBird;
+    }
+    if (this.midTermStartDate && today >= this.midTermStartDate && today < this.lateTermStartDate) {
+      return option.midTerm;
+    }
+    if (this.lateTermStartDate && today >= this.lateTermStartDate && today <= this.registrationDeadline) {
+      return option.late;
+    }
+
+    return 0; // After deadline or invalid case
   }
 
   onSubmit(form: any): void {
-    if (!form.valid || !this.selectedOption) {
-      alert('Please fill out all required fields correctly and select a registration option!');
+    const missingFields: string[] = [];
+  
+    if (!this.formData.designation) missingFields.push('Designation');
+    if (!this.formData.fullName) missingFields.push('Full Name');
+    if (!this.formData.companyName) missingFields.push('Company Name');
+    if (!this.formData.country) missingFields.push('Country');
+    if (!this.formData.email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(this.formData.email)) {
+      missingFields.push('Valid Email');
+    }
+    if (!this.formData.phone || !/^[0-9]{10}$/.test(this.formData.phone)) {
+      missingFields.push('Valid 10-digit Phone Number');
+    }
+    if (!this.selectedOption) missingFields.push('Registration Option');
+    if (!this.refundPolicy) missingFields.push('Refund/Cancellation Policy Agreement');
+  
+    // ✅ Check if registration is closed
+    const today = new Date();
+    if (this.registrationDeadline && today > this.registrationDeadline) {
+      alert('Registration is closed. You cannot proceed further.');
       return;
     }
-
+  
+    if (missingFields.length > 0) {
+      alert('Please provide the following required fields:\n- ' + missingFields.join('\n- '));
+      return;
+    }
+  
     let finalPrice: number = 0;
-
+  
     if (this.selectedOption.type === 'Other') {
       finalPrice = this.otherOption.price;
     } else {
       finalPrice = this.getCurrentPrice(this.selectedOption);
     }
-
+  
     if (isNaN(finalPrice) || finalPrice <= 0) {
       alert('Please enter a valid registration price.');
       return;
     }
-
+  
     this.isSubmitting = true;
-
-    // Prepare registration data for API
+  
     const registrationData = {
       designation: this.formData.designation,
       full_name: this.formData.fullName,
@@ -103,10 +170,9 @@ export class RegistrationFormComponent implements OnInit {
       registration_type: this.selectedOption.type,
       registration_price: finalPrice
     };
-
+  
     console.log("Sending registration data to Hasura:", registrationData);
-
-    // Send data to Hasura API
+  
     this.registrationService.submitRegistration(registrationData).subscribe(
       (response) => {
         this.router.navigate(['/' + this.pageName + '/payment'], { state: { data: registrationData } });
@@ -118,6 +184,8 @@ export class RegistrationFormComponent implements OnInit {
       }
     );
   }
+  
+
 
   onReset(form?: any): void {
     this.formData = {

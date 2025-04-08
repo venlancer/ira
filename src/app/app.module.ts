@@ -50,7 +50,19 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 import { NgxPayPalModule } from 'ngx-paypal';
 import { PaymentComponent } from './shared/payment/payment.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
+import { LucideAngularModule, icons  } from 'lucide-angular';
+import {
+  Dna,
+  Pill,
+  Ribbon,
+  Settings,
+  BrainCircuit,
+  TestTube,
+  Apple,
+  Utensils,
+  Atom,
+  FlaskRound
+} from 'lucide-angular';
 
 @NgModule({
   declarations: [
@@ -101,7 +113,10 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     ReactiveFormsModule,
     AdminModule,
     NgxPayPalModule,
-    ApolloModule
+    LucideAngularModule.pick({
+      Dna, Pill, Ribbon, Settings, BrainCircuit,
+      TestTube, Apple, Utensils, Atom, FlaskRound
+    })
   ],
   providers: [CustomerService],
     // { provide: LocationStrategy, useClass: HashLocationStrategy }],

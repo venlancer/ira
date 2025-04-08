@@ -7,7 +7,7 @@
         [class.active]="activeTabIndex === i"
         (click)="selectTab(i)"
       >
-        {{ dayObj.dayLabel }}
+        {{ dayObj.day_label }}
       </li>
     </ul>
   
@@ -17,7 +17,7 @@
         <!-- Only shows events for the currently active day -->
         <div
           class="event-card"
-          *ngFor="let event of timelineData[activeTabIndex].events"
+          *ngFor="let event of timelineData[activeTabIndex].conference_events"
         >
           <div class="event-time">{{ event.time }}</div>
           <div class="event-title">{{ event.title }}</div>

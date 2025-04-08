@@ -2,7 +2,7 @@
   <div class="row">
     <!-- Left Side: Image -->
     <div class="col-md-8">
-      <img src="assets/img/brand/abstract-submissions-are-open-1142.jpg" class="img-fluid" alt="Event Group" />
+      <img *ngIf="imageUrl" [src]="imageUrl" alt="Event Banner" class="img-fluid rounded" style="max-width: 100%; height: auto;" />
     </div>
     <!-- Right Side: Content -->
     <div class="col-md-4 d-flex flex-column justify-content-center align-items-start p-4 rounded-end"
@@ -13,16 +13,16 @@
       <p class="text-light mb-4">Submit Your Abstract Today !!!</p>
       <div>
         <h4 class="text-white mb-3">- QUICK LINKS -</h4>
-        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('scientific-sessions')">
-          Scientific Sessions ➔
+        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('/scientific-program')">
+          Scientific Program ➔
         </button>
-        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('speakers')">
-          Speakers ➔
+        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('/event-members')">
+          Scientific Committee ➔
         </button>
-        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('submit-abstract')">
-          Submit Abstract ➔
+        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('/abstract-submission')">
+          Abstract Submission ➔
         </button>
-        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('register')">
+        <button class="btn btn-light mb-2 w-100 text-start" (click)="navigateTo('/event-registration')">
           Register ➔
         </button>
       </div>

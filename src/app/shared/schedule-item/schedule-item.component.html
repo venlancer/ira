@@ -14,7 +14,7 @@
   
     <!-- Presentations for the Selected Day -->
     <div class="presentations">
-      <div class="presentation-card" *ngFor="let presentation of scheduleData[selectedDay].presentations">
+      <div class="presentation-card" *ngFor="let presentation of scheduleData[selectedDay].scientific_presentations">
         <div class="presentation-header d-flex align-items-center">
           <img [src]="presentation.speakerImage" alt="{{ presentation.speaker }}" class="speaker-img" />
           <div class="presentation-details">

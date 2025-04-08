@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -6,7 +6,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './half-moon.component.html',
   styleUrls: ['./half-moon.component.scss']
 })
-export class HalfMoonComponent implements OnInit {
+export class HalfMoonComponent implements OnInit, OnChanges {
+  @Input() deadLine:any;
+  public finalDate:any;
   public slides = [
     {
       id: 'slide1',
@@ -37,6 +39,18 @@ export class HalfMoonComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.pageName = params['pageName'];
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    var dateObj = new Date(this.deadLine);
+    const formattedDate = dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    this.finalDate = formattedDate;
+    
+    console.log(this.finalDate);
   }
 
   

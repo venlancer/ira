@@ -3,22 +3,33 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-icon-block',
   templateUrl: './icon-block.component.html',
-  styleUrls: ['./icon-block.component.css']
+  styleUrls: ['./icon-block.component.scss']
 })
 export class IconBlockComponent implements OnInit {
+
+  orbitIcons: string[] = [
+    'dna',
+    'pill',
+    'ribbon',
+    'test-tube',
+    'apple',
+    'atom',
+    'flask-round',
+  ];
+  
+  
 
   constructor() { }
 
   ngOnInit(): void {
-    var nucleoView = document.getElementsByClassName('icons-container')[0];
-    window.addEventListener('scroll', function (event) {
-    	if (this.isInViewport(nucleoView)) {
-    		nucleoView.classList.add('on-screen');
-    	}
-      else{
+    const nucleoView = document.getElementsByClassName('icon-orbit')[0];
+    window.addEventListener('scroll', () => {
+      if (this.isInViewport(nucleoView)) {
+        nucleoView.classList.add('on-screen');
+      } else {
         nucleoView.classList.remove('on-screen');
       }
-    }.bind(this), false);
+    });
   }
 
   isInViewport(elem) {

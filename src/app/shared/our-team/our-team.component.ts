@@ -9,24 +9,24 @@ export class OurTeamComponent implements OnInit {
 
   public teamMembers = [
     {
-      name: 'Subbarayan Ragu',
-      title: 'Managing Director',
-      imageUrl: './assets/img/theme/team-1-800x800.jpg',
+      name: 'Bernd Krone',
+      title: 'Georg August University, Germany',
+      imageUrl: './assets/img/01.jpeg',
     },
     {
-      name: 'Anvesh Varma',
-      title: 'Managing Director',
-      imageUrl: './assets/img/theme/team-2-800x800.jpg',
+      name: 'Dr. Wassil Nowicky',
+      title: 'Nowicky Pharma, Austria',
+      imageUrl: './assets/img/02.jpeg',
     },
     {
-      name: 'Achyutha Ramani',
-      title: 'CEO',
-      imageUrl: './assets/img/theme/team-3-800x800.jpg',
+      name: 'Rashid OOZEER',
+      title: 'Radiation Therapy Consulting, FRANCE',
+      imageUrl: './assets/img/03.jpeg',
     },
     {
-      name: 'Renee M. Borges',
-      title: 'Scientific Research Coordinator',
-      imageUrl: './assets/img/theme/team-4-800x800.jpg',
+      name: 'Zhi Qiang Yao, MD, PhD',
+      title: 'Division Chief | Research Division, ETSU Quillen College of Medicine, USA',
+      imageUrl: './assets/img/04.jpeg',
     },
   ];
 

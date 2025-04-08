@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-schedule',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScheduleComponent implements OnInit {
 
-public timelineData = [
+@Input() conferenceschedules:any;
+
+public timelineData = 
+[
   {
     dayLabel: 'Day 1, April 14th 2025',
     events: [
@@ -105,6 +108,10 @@ activeTabIndex = 0;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(change:SimpleChanges) {
+    this.timelineData = this.conferenceschedules;
   }
 
   selectTab(index: number) {

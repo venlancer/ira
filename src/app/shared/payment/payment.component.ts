@@ -31,7 +31,7 @@ export class PaymentComponent implements OnInit {
   private initPaypalConfig(): void {
     this.payPalConfig = {
       currency: 'USD',
-      clientId: 'AW8YvvpyLIqYNq6kBwkidl2nm2KupDiECO96UHGNU_t10sev7iSrIcSIBYxDFQirMvCbKUecVurHvUZj', // Replace with your PayPal Client ID
+      clientId: 'ASDyizkv8U-0Wa4P6UnbZHJf-uo-AZzEvyr9U0lV-89Ux5bqzdoQHX4toQM89kWMd0n3yFYt67H9AVRM', // Replace with your PayPal Client ID
       createOrderOnClient: (data) => <ICreateOrderRequest>{
         intent: 'CAPTURE',
         purchase_units: [
